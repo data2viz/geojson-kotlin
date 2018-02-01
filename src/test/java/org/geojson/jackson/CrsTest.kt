@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.geojson.Crs
 import org.geojson.GeoJsonObject
 import org.geojson.Point
+import org.intellij.lang.annotations.Language
 import org.junit.Test
 
 import org.junit.Assert.assertEquals
@@ -16,10 +17,19 @@ class CrsTest {
     @Test
     @Throws(Exception::class)
     fun itShouldParseCrsWithLink() {
+        
+        @Language("JSON")
         val value = mapper.readValue(
-            "{\"crs\": { \"type\": \"LINK\", \"properties\": "
-                    + "{ \"href\": \"http://example.com/crs/42\", \"type\": \"proj4\" }},"
-                    + "\"type\":\"Point\",\"coordinates\":[100.0,5.0]}", GeoJsonObject::class.java
+            """{"crs": { 
+                    "type": "LINK", 
+                    "properties": { 
+                        "href": "http://example.com/crs/42", 
+                        "type": "proj4" 
+                        }
+                    },"type":"Point",
+                    "coordinates":[100.0,5.0]
+                }""".trimIndent(),
+            GeoJsonObject::class.java
         )
         assertNotNull(value)
         assertEquals(CrsType.LINK, value.crs!!.type)
