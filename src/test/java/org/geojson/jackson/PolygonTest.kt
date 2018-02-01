@@ -3,6 +3,7 @@ package org.geojson.jackson
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.geojson.LngLatAlt
 import org.geojson.Polygon
+import org.intellij.lang.annotations.Language
 import org.junit.Test
 
 import org.junit.Assert.assertEquals
@@ -15,8 +16,9 @@ class PolygonTest {
     @Throws(Exception::class)
     fun itShouldSerialize() {
         val polygon = Polygon(MockData.EXTERNAL)
+        //language=JSON
         assertEquals(
-            "{\"type\":\"Polygon\",\"coordinates\":" + "[[[100.0,0.0],[101.0,0.0],[101.0,1.0],[100.0,1.0],[100.0,0.0]]]}",
+            """{"type":"Polygon","coordinates":[[[100.0,0.0],[101.0,0.0],[101.0,1.0],[100.0,1.0],[100.0,0.0]]]}""",
             mapper.writeValueAsString(polygon)
         )
     }
@@ -26,10 +28,9 @@ class PolygonTest {
     fun itShouldSerializeWithHole() {
         val polygon = Polygon(MockData.EXTERNAL)
         polygon.addInteriorRing(MockData.INTERNAL)
+        //language=JSON
         assertEquals(
-            "{\"type\":\"Polygon\",\"coordinates\":"
-                    + "[[[100.0,0.0],[101.0,0.0],[101.0,1.0],[100.0,1.0],[100.0,0.0]],"
-                    + "[[100.2,0.2],[100.8,0.2],[100.8,0.8],[100.2,0.8],[100.2,0.2]]]}",
+            """{"type":"Polygon","coordinates":[[[100.0,0.0],[101.0,0.0],[101.0,1.0],[100.0,1.0],[100.0,0.0]],[[100.2,0.2],[100.8,0.2],[100.8,0.8],[100.2,0.8],[100.2,0.2]]]}""",
             mapper.writeValueAsString(polygon)
         )
     }
@@ -44,10 +45,9 @@ class PolygonTest {
     @Test
     @Throws(Exception::class)
     fun itShouldDeserialize() {
+        @Language("JSON")
         val polygon = mapper.readValue(
-            "{\"type\":\"Polygon\",\"coordinates\":"
-                    + "[[[100.0,0.0],[101.0,0.0],[101.0,1.0],[100.0,1.0],[100.0,0.0]],"
-                    + "[[100.2,0.2],[100.8,0.2],[100.8,0.8],[100.2,0.8],[100.2,0.2]]]}", Polygon::class.java
+            """{"type":"Polygon","coordinates":[[[100.0,0.0],[101.0,0.0],[101.0,1.0],[100.0,1.0],[100.0,0.0]],[[100.2,0.2],[100.8,0.2],[100.8,0.8],[100.2,0.8],[100.2,0.2]]]}""", Polygon::class.java
         )
         assertListEquals(MockData.EXTERNAL, polygon.exteriorRing)
         assertListEquals(MockData.INTERNAL, polygon.getInteriorRing(0))

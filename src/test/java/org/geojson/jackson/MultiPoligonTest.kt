@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.geojson.LngLatAlt
 import org.geojson.MultiPolygon
 import org.geojson.Polygon
+import org.intellij.lang.annotations.Language
 import org.junit.Test
 
 import org.junit.Assert.assertEquals
@@ -25,10 +26,9 @@ class MultiPoligonTest {
         val polygon = Polygon(MockData.EXTERNAL)
         polygon.addInteriorRing(MockData.INTERNAL)
         multiPolygon.add(polygon)
+        //language=JSON
         assertEquals(
-            "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]]],"
-                    + "[[[100.0,0.0],[101.0,0.0],[101.0,1.0],[100.0,1.0],[100.0,0.0]],"
-                    + "[[100.2,0.2],[100.8,0.2],[100.8,0.8],[100.2,0.8],[100.2,0.2]]]]}",
+            """{"type":"MultiPolygon","coordinates":[[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]]],[[[100.0,0.0],[101.0,0.0],[101.0,1.0],[100.0,1.0],[100.0,0.0]],[[100.2,0.2],[100.8,0.2],[100.8,0.8],[100.2,0.8],[100.2,0.2]]]]}""",
             mapper.writeValueAsString(multiPolygon)
         )
     }
@@ -36,10 +36,14 @@ class MultiPoligonTest {
     @Test
     @Throws(Exception::class)
     fun itShouldDeserialize() {
+        @Language("JSON")
         val multiPolygon = mapper.readValue(
-            "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]]],"
-                    + "[[[100.0,0.0],[101.0,0.0],[101.0,1.0],[100.0,1.0],[100.0,0.0]],"
-                    + "[[100.2,0.2],[100.8,0.2],[100.8,0.8],[100.2,0.8],[100.2,0.2]]]]}", MultiPolygon::class.java
+            """{"type":"MultiPolygon",
+                "coordinates":[
+                    [[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]]],
+                    [[[100.0,0.0],[101.0,0.0],[101.0,1.0],[100.0,1.0],[100.0,0.0]],[[100.2,0.2],[100.8,0.2],[100.8,0.8],[100.2,0.8],[100.2,0.2]]]
+                ]
+                }""".trimIndent(), MultiPolygon::class.java
         )
         assertEquals(2, multiPolygon.coordinates.size.toLong())
     }

@@ -3,6 +3,7 @@ package org.geojson.jackson
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.geojson.LngLatAlt
 import org.geojson.MultiPoint
+import org.intellij.lang.annotations.Language
 import org.junit.Test
 
 import org.junit.Assert.assertEquals
@@ -16,8 +17,9 @@ class MultiPointTest {
     @Throws(Exception::class)
     fun itShouldSerializeMultiPoint() {
         val multiPoint = MultiPoint(LngLatAlt(100.0, 0.0), LngLatAlt(101.0, 1.0))
+        //language=JSON
         assertEquals(
-            "{\"type\":\"MultiPoint\",\"coordinates\":[[100.0,0.0],[101.0,1.0]]}",
+            """{"type":"MultiPoint","coordinates":[[100.0,0.0],[101.0,1.0]]}""",
             mapper.writeValueAsString(multiPoint)
         )
     }
@@ -25,9 +27,10 @@ class MultiPointTest {
     @Test
     @Throws(Exception::class)
     fun itShouldDeserializeMultiPoint() {
+        @Language("JSON")
         val multiPoint = mapper
             .readValue(
-                "{\"type\":\"MultiPoint\",\"coordinates\":[[100.0,0.0],[101.0,1.0]]}",
+                """{"type":"MultiPoint","coordinates":[[100.0,0.0],[101.0,1.0]]}""",
                 MultiPoint::class.java
             )
         assertNotNull(multiPoint)

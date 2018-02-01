@@ -23,8 +23,9 @@ class FeatureTest {
         // http://geojson.org/geojson-spec.html#feature-objects
         // A feature object must have a member with the name "properties".
         // The value of the properties member is an object (any JSON object or a JSON null value).
+        //language=JSON
         assertEquals(
-            "{\"type\":\"Feature\",\"properties\":{},\"geometry\":null}",
+            """{"type":"Feature","properties":{},"geometry":null}""",
             mapper.writeValueAsString(testObject)
         )
     }
