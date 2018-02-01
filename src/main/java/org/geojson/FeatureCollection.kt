@@ -28,7 +28,7 @@ class FeatureCollection : GeoJsonObject(), Iterable<Feature> {
     }
 
     override fun <T> accept(geoJsonObjectVisitor: GeoJsonObjectVisitor<T>): T {
-        return geoJsonObjectVisitor.visit(this)
+        return geoJsonObjectVisitor.visit(this)!!
     }
 
     override fun equals(o: Any?): Boolean {

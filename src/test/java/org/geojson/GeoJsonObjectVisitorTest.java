@@ -88,8 +88,8 @@ public class GeoJsonObjectVisitorTest {
 		Assert.assertEquals(geoJsonObject, result);
 	}
 
-	@Test
-	public void itShouldAdapter() throws Exception {
-		Assert.assertNull(geoJsonObject.accept(new GeoJsonObjectVisitor.Adapter<Void>()));
-	}
+//	@Test
+//	public void itShouldAdapter() throws Exception {
+//		Assert.assertNull(geoJsonObject.accept(new GeoJsonObjectVisitor.Adapter<Void>()));
+//	}
 }

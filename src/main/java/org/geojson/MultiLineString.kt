@@ -1,16 +1,18 @@
 package org.geojson
 
-class LineString : MultiPoint {
+class MultiLineString : Geometry<List<LngLatAlt>> {
 
     constructor() {}
 
-    constructor(vararg points: LngLatAlt) : super(*points) {}
+    constructor(line: List<LngLatAlt>) {
+        add(line)
+    }
 
     override fun <T> accept(geoJsonObjectVisitor: GeoJsonObjectVisitor<T>): T {
         return geoJsonObjectVisitor.visit(this)!!
     }
 
     override fun toString(): String {
-        return "LineString{} " + super.toString()
+        return "MultiLineString{} " + super.toString()
     }
 }
