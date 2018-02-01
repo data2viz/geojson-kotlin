@@ -10,15 +10,15 @@ class Polygon : Geometry<List<LngLatAlt>> {
         @JsonIgnore
         get() {
             assertExteriorRing()
-            return getCoordinates()[0]
+            return coordinates[0]
         }
-        set(points) = getCoordinates().add(0, points)
+        set(points) = coordinates.add(0, points)
 
     val interiorRings: List<List<LngLatAlt>>
         @JsonIgnore
         get() {
             assertExteriorRing()
-            return getCoordinates().subList(1, getCoordinates().size)
+            return coordinates.subList(1, coordinates.size)
         }
 
     constructor() {}
@@ -33,21 +33,21 @@ class Polygon : Geometry<List<LngLatAlt>> {
 
     fun getInteriorRing(index: Int): List<LngLatAlt> {
         assertExteriorRing()
-        return getCoordinates()[1 + index]
+        return coordinates[1 + index]
     }
 
     fun addInteriorRing(points: List<LngLatAlt>) {
         assertExteriorRing()
-        getCoordinates().add(points)
+        coordinates.add(points)
     }
 
     fun addInteriorRing(vararg points: LngLatAlt) {
         assertExteriorRing()
-        getCoordinates().add(Arrays.asList(*points))
+        coordinates.add(Arrays.asList(*points))
     }
 
     private fun assertExteriorRing() {
-        if (getCoordinates().isEmpty())
+        if (coordinates.isEmpty())
             throw RuntimeException("No exterior ring definied")
     }
 
