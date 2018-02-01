@@ -8,7 +8,7 @@ import java.util.HashMap
 
 class Crs : Serializable {
 
-    var type: CrsType? = CrsType.name
+    var type: CrsType? = CrsType.NAME
     var properties: Map<String, Any>? = HashMap()
 
     override fun equals(o: Any?): Boolean {

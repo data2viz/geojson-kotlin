@@ -15,20 +15,20 @@ public class CrsTest {
 
 	@Test
 	public void itShouldParseCrsWithLink() throws Exception {
-		GeoJsonObject value = mapper.readValue("{\"crs\": { \"type\": \"link\", \"properties\": "
+		GeoJsonObject value = mapper.readValue("{\"crs\": { \"type\": \"LINK\", \"properties\": "
 				+ "{ \"href\": \"http://example.com/crs/42\", \"type\": \"proj4\" }},"
 				+ "\"type\":\"Point\",\"coordinates\":[100.0,5.0]}", GeoJsonObject.class);
 		assertNotNull(value);
-		assertEquals(CrsType.link, value.getCrs().getType());
+		assertEquals(CrsType.LINK, value.getCrs().getType());
 	}
 
 	@Test
 	public void itShouldSerializeCrsWithLink() throws Exception {
 		Point point = new Point();
 		Crs crs = new Crs();
-		crs.setType(CrsType.link);
+		crs.setType(CrsType.LINK);
 		point.setCrs(crs);
 		String value = mapper.writeValueAsString(point);
-		assertEquals("{\"type\":\"Point\",\"crs\":{\"type\":\"link\",\"properties\":{}}}", value);
+		assertEquals("{\"type\":\"Point\",\"crs\":{\"type\":\"LINK\",\"properties\":{}}}", value);
 	}
 }

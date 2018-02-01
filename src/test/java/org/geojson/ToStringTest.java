@@ -10,7 +10,7 @@ public class ToStringTest {
 
 	@Test
 	public void itShouldToStringCrs() throws Exception {
-		assertEquals("Crs{type='name', properties={}}", new Crs().toString());
+		assertEquals("Crs{type='NAME', properties={}}", new Crs().toString());
 	}
 
 	@Test
