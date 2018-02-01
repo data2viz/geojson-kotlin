@@ -12,9 +12,9 @@ import java.util.Arrays
 @JsonSerialize(using = LngLatAltSerializer::class)
 class LngLatAlt : Serializable {
 
-    var longitude: Double = 0.toDouble()
-    var latitude: Double = 0.toDouble()
-    private var altitude = java.lang.Double.NaN
+    var longitude: Double = .0
+    var latitude: Double = .0
+    private var altitude = Double.NaN
     private var additionalElements = DoubleArray(0)
 
     constructor() {}
@@ -48,17 +48,11 @@ class LngLatAlt : Serializable {
         checkAltitudeAndAdditionalElements()
     }
 
-    fun hasAltitude(): Boolean {
-        return !java.lang.Double.isNaN(altitude)
-    }
+    fun hasAltitude(): Boolean  = !java.lang.Double.isNaN(altitude)
 
-    fun hasAdditionalElements(): Boolean {
-        return additionalElements.size > 0
-    }
+    private fun hasAdditionalElements(): Boolean = additionalElements.isNotEmpty()
 
-    fun getAltitude(): Double {
-        return altitude
-    }
+    fun getAltitude(): Double = altitude
 
     fun setAltitude(altitude: Double) {
         this.altitude = altitude
@@ -70,31 +64,15 @@ class LngLatAlt : Serializable {
     }
 
     fun setAdditionalElements(vararg additionalElements: Double) {
-        if (additionalElements != null) {
-            this.additionalElements = additionalElements
-        } else {
-            this.additionalElements = DoubleArray(0)
-        }
-
-        for (element in this.additionalElements) {
-            if (java.lang.Double.isNaN(element)) {
-                throw IllegalArgumentException("No additional elements may be NaN.")
-            }
-            if (java.lang.Double.isInfinite(element)) {
-                throw IllegalArgumentException("No additional elements may be infinite.")
-            }
-        }
-
+        require(additionalElements.none { java.lang.Double.isNaN(it) }) { "No additional elements may be NaN." }
+        require(additionalElements.none { java.lang.Double.isInfinite(it) }) { "No additional elements may be infinite." }
+        this.additionalElements = additionalElements
         checkAltitudeAndAdditionalElements()
     }
 
     override fun equals(o: Any?): Boolean {
-        if (this === o) {
-            return true
-        }
-        if (o !is LngLatAlt) {
-            return false
-        }
+        if (this === o) return true
+        if (o !is LngLatAlt) return false
         val lngLatAlt = o as LngLatAlt?
         return (java.lang.Double.compare(
             lngLatAlt!!.latitude,
@@ -120,19 +98,8 @@ class LngLatAlt : Serializable {
 
     override fun toString(): String {
         var s = "LngLatAlt{longitude=$longitude, latitude=$latitude, altitude=$altitude"
-
-        if (hasAdditionalElements()) {
-            s += ", additionalElements=["
-
-            var suffix = ""
-            for (element in additionalElements) {
-                if (element != null) {
-                    s += suffix + element
-                    suffix = ", "
-                }
-            }
-            s += ']'.toString()
-        }
+        
+        if (hasAdditionalElements()) s += additionalElements.joinToString(prefix = ", additionalElements=[",  postfix = "]")
 
         s += '}'.toString()
 
@@ -140,8 +107,6 @@ class LngLatAlt : Serializable {
     }
 
     private fun checkAltitudeAndAdditionalElements() {
-        if (!hasAltitude() && hasAdditionalElements()) {
-            throw IllegalArgumentException("Additional Elements are only valid if Altitude is also provided.")
-        }
+        require(hasAltitude() || !hasAdditionalElements()) { "Additional Elements are only valid if Altitude is also provided." }
     }
 }
