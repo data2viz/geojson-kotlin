@@ -8,6 +8,7 @@ class Feature : GeoJsonObject() {
 
     @JsonInclude(JsonInclude.Include.ALWAYS)
     private var properties: MutableMap<String, Any>? = HashMap()
+    
     @JsonInclude(JsonInclude.Include.ALWAYS)
     var geometry: GeoJsonObject? = null
     var id: String? = null
