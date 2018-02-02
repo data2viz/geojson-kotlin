@@ -6,11 +6,7 @@ open class MultiPoint : Geometry<LngLatAlt> {
 
     constructor(vararg points: LngLatAlt) : super(*points)
 
-    override fun <T> accept(geoJsonObjectVisitor: GeoJsonObjectVisitor<T>): T {
-        return geoJsonObjectVisitor.visit(this)!!
-    }
+    override fun <T> accept(geoJsonObjectVisitor: GeoJsonObjectVisitor<T>): T = geoJsonObjectVisitor.visit(this)!!
 
-    override fun toString(): String {
-        return "MultiPoint{} " + super.toString()
-    }
+    override fun toString(): String = "MultiPoint{} ${super.toString()}"
 }

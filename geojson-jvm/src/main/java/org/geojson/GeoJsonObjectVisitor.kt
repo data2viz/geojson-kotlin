@@ -36,35 +36,13 @@ interface GeoJsonObjectVisitor<T> {
     class Adapter<T> : GeoJsonObjectVisitor<T> {
 
         override fun visit(geoJsonObject: GeometryCollection): T?  = GeometryCollection() as T
-
         override fun visit(geoJsonObject: FeatureCollection): T?  = FeatureCollection() as T
-
-        override fun visit(geoJsonObject: Point): T? {
-            return null
-        }
-
-        override fun visit(geoJsonObject: Feature): T? {
-            return null
-        }
-
-        override fun visit(geoJsonObject: MultiLineString): T? {
-            return null
-        }
-
-        override fun visit(geoJsonObject: Polygon): T? {
-            return null
-        }
-
-        override fun visit(geoJsonObject: MultiPolygon): T? {
-            return null
-        }
-
-        override fun visit(geoJsonObject: MultiPoint): T? {
-            return null
-        }
-
-        override fun visit(geoJsonObject: LineString): T? {
-            return null
-        }
+        override fun visit(geoJsonObject: Point): T? = null
+        override fun visit(geoJsonObject: Feature): T? = null
+        override fun visit(geoJsonObject: MultiLineString): T? = null
+        override fun visit(geoJsonObject: Polygon): T? = null
+        override fun visit(geoJsonObject: MultiPolygon): T? = null
+        override fun visit(geoJsonObject: MultiPoint): T? = null
+        override fun visit(geoJsonObject: LineString): T? = null
     }
 }

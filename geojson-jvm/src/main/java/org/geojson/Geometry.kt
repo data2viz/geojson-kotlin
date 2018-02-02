@@ -32,13 +32,7 @@ abstract class Geometry<T> : GeoJsonObject {
         return coordinates == geometry!!.coordinates
     }
 
-    override fun hashCode(): Int {
-        var result = super.hashCode()
-        result = 31 * result + coordinates.hashCode()
-        return result
-    }
+    override fun hashCode(): Int = 31 * super.hashCode() + coordinates.hashCode()
 
-    override fun toString(): String {
-        return "Geometry{" + "coordinates=" + coordinates + "} " + super.toString()
-    }
+    override fun toString(): String = "Geometry{coordinates=$coordinates} ${super.toString()}"
 }

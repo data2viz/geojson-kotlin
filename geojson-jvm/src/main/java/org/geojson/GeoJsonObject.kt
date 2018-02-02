@@ -30,12 +30,10 @@ abstract class GeoJsonObject: Serializable {
     }
 
     override fun hashCode(): Int {
-        var result = if (crs != null) crs!!.hashCode() else 0
+        var result = crs?.hashCode() ?: 0
         result = 31 * result + if (bbox != null) Arrays.hashCode(bbox) else 0
         return result
     }
 
-    override fun toString(): String {
-        return "GeoJsonObject{}"
-    }
+    override fun toString(): String = "GeoJsonObject{}"
 }

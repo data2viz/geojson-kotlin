@@ -6,22 +6,15 @@ class GeometryCollection : GeoJsonObject(), Iterable<GeoJsonObject> {
 
     private var geometries: MutableList<GeoJsonObject>? = ArrayList()
 
-    fun getGeometries(): List<GeoJsonObject>? {
-        return geometries
-    }
+    fun getGeometries(): List<GeoJsonObject>? = geometries
 
     fun setGeometries(geometries: MutableList<GeoJsonObject>) {
         this.geometries = geometries
     }
 
-    override fun iterator(): Iterator<GeoJsonObject> {
-        return geometries!!.iterator()
-    }
+    override fun iterator(): Iterator<GeoJsonObject> = geometries!!.iterator()
 
-    fun add(geometry: GeoJsonObject): GeometryCollection {
-        geometries!!.add(geometry)
-        return this
-    }
+    fun add(geometry: GeoJsonObject): GeometryCollection = this.apply { geometries!!.add(geometry)}
 
     override fun <T> accept(geoJsonObjectVisitor: GeoJsonObjectVisitor<T>): T {
         return geoJsonObjectVisitor.visit(this)!!
@@ -38,13 +31,7 @@ class GeometryCollection : GeoJsonObject(), Iterable<GeoJsonObject> {
         return !if (geometries != null) geometries != that!!.geometries else that!!.geometries != null
     }
 
-    override fun hashCode(): Int {
-        var result = super.hashCode()
-        result = 31 * result + if (geometries != null) geometries!!.hashCode() else 0
-        return result
-    }
+    override fun hashCode(): Int = 31 * super.hashCode() + (geometries?.hashCode() ?:0)
 
-    override fun toString(): String {
-        return "GeometryCollection{" + "geometries=" + geometries + "} " + super.toString()
-    }
+    override fun toString(): String = "GeometryCollection{geometries=$geometries} ${super.toString()}"
 }

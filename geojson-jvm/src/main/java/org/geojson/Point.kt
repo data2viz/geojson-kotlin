@@ -40,13 +40,7 @@ class Point : GeoJsonObject {
         return !if (coordinates != null) coordinates != point!!.coordinates else point!!.coordinates != null
     }
 
-    override fun hashCode(): Int {
-        var result = super.hashCode()
-        result = 31 * result + if (coordinates != null) coordinates!!.hashCode() else 0
-        return result
-    }
+    override fun hashCode(): Int  = 31 * super.hashCode() + (coordinates?.hashCode()  ?: 0)
 
-    override fun toString(): String {
-        return "Point{" + "coordinates=" + coordinates + "} " + super.toString()
-    }
+    override fun toString(): String = "Point{coordinates=$coordinates} ${super.toString()}"
 }

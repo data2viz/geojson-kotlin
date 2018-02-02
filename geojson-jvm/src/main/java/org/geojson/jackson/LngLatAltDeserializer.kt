@@ -10,20 +10,23 @@ import java.io.IOException
 import java.util.ArrayList
 
 class LngLatAltDeserializer : JsonDeserializer<LngLatAlt>() {
+    
+    fun DeserializationContext.handle(
+        clazz: Class<*>,
+        jp: JsonParser
+    ):Nothing {
+        this.handleUnexpectedToken(clazz, jp)
+        throw IllegalArgumentException("Exception should have been thrown before!!")
+    }
 
     @Throws(IOException::class)
     override fun deserialize(jp: JsonParser, ctxt: DeserializationContext): LngLatAlt {
-        if (jp.isExpectedStartArrayToken) {
-            return deserializeArray(jp, ctxt)
-        }
-        throw ctxt.mappingException(LngLatAlt::class.java)
+        return if (jp.isExpectedStartArrayToken) deserializeArray(jp, ctxt) else ctxt.handle(LngLatAlt::class.java, jp)
     }
 
     @Throws(IOException::class)
     protected fun deserializeArray(jp: JsonParser, ctxt: DeserializationContext): LngLatAlt {
-        val node = LngLatAlt()
-        node.longitude = extractDouble(jp, ctxt, false)
-        node.latitude = extractDouble(jp, ctxt, false)
+        val node = LngLatAlt(extractDouble(jp, ctxt, false), extractDouble(jp, ctxt, false))
         node.setAltitude(extractDouble(jp, ctxt, true))
         val additionalElementsList = ArrayList<Double>()
         while (jp.hasCurrentToken() && jp.currentToken != JsonToken.END_ARRAY) {

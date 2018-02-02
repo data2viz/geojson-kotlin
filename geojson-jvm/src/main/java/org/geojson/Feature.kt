@@ -17,21 +17,15 @@ class Feature : GeoJsonObject() {
         properties!![key] = value
     }
 
-    fun <T> getProperty(key: String): T {
-        return properties!![key] as T
-    }
+    fun <T> getProperty(key: String): T = properties!![key] as T
 
-    fun getProperties(): Map<String, Any>? {
-        return properties
-    }
+    fun getProperties(): Map<String, Any>? = properties
 
     fun setProperties(properties: MutableMap<String, Any>) {
         this.properties = properties
     }
 
-    override fun <T> accept(geoJsonObjectVisitor: GeoJsonObjectVisitor<T>): T {
-        return geoJsonObjectVisitor.visit(this)!!
-    }
+    override fun <T> accept(geoJsonObjectVisitor: GeoJsonObjectVisitor<T>): T = geoJsonObjectVisitor.visit(this)!!
 
     override fun equals(o: Any?): Boolean {
         if (this === o)
@@ -48,13 +42,11 @@ class Feature : GeoJsonObject() {
 
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + if (properties != null) properties!!.hashCode() else 0
-        result = 31 * result + if (geometry != null) geometry!!.hashCode() else 0
-        result = 31 * result + if (id != null) id!!.hashCode() else 0
+        result = 31 * result + (properties?.hashCode() ?: 0)
+        result = 31 * result + (geometry?.hashCode() ?: 0)
+        result = 31 * result + (id?.hashCode() ?: 0)
         return result
     }
 
-    override fun toString(): String {
-        return "Feature{properties=$properties, geometry=$geometry, id='$id'}"
-    }
+    override fun toString(): String = "Feature{properties=$properties, geometry=$geometry, id='$id'}"
 }

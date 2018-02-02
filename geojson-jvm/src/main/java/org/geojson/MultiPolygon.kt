@@ -8,11 +8,8 @@ class MultiPolygon : Geometry<List<List<LngLatAlt>>> {
         add(polygon)
     }
 
-    fun add(polygon: Polygon): MultiPolygon {
-        coordinates.add(polygon.coordinates)
-        return this
-    }
+    fun add(polygon: Polygon): MultiPolygon = this.apply { coordinates.add(polygon.coordinates) }
 
     override fun <T> accept(geoJsonObjectVisitor: GeoJsonObjectVisitor<T>): T = geoJsonObjectVisitor.visit(this)!!
-    override fun toString(): String = "MultiPolygon{} " + super.toString()
+    override fun toString(): String = "MultiPolygon{} ${super.toString()}"
 }

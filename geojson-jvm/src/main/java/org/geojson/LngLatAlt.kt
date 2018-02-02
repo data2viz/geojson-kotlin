@@ -8,45 +8,22 @@ import org.geojson.jackson.LngLatAltSerializer
 import java.io.Serializable
 import java.util.Arrays
 
+/**
+ * Construct a LngLatAlt with additional elements.
+ * The specification allows for any number of additional elements in a position, after lng, lat, alt.
+ * http://geojson.org/geojson-spec.html#positions
+ */
 @JsonDeserialize(using = LngLatAltDeserializer::class)
 @JsonSerialize(using = LngLatAltSerializer::class)
-class LngLatAlt : Serializable {
+class LngLatAlt
+(
+    var longitude: Double,
+    var latitude: Double,
+    private var altitude: Double = Double.NaN,
+    vararg additionalElements: Double
+) : Serializable {
 
-    var longitude: Double = .0
-    var latitude: Double = .0
-    private var altitude = Double.NaN
     private var additionalElements = DoubleArray(0)
-
-    constructor() {}
-
-    constructor(longitude: Double, latitude: Double) {
-        this.longitude = longitude
-        this.latitude = latitude
-    }
-
-    constructor(longitude: Double, latitude: Double, altitude: Double) {
-        this.longitude = longitude
-        this.latitude = latitude
-        this.altitude = altitude
-    }
-
-    /**
-     * Construct a LngLatAlt with additional elements.
-     * The specification allows for any number of additional elements in a position, after lng, lat, alt.
-     * http://geojson.org/geojson-spec.html#positions
-     * @param longitude The longitude.
-     * @param latitude The latitude.
-     * @param altitude The altitude.
-     * @param additionalElements The additional elements.
-     */
-    constructor(longitude: Double, latitude: Double, altitude: Double, vararg additionalElements: Double) {
-        this.longitude = longitude
-        this.latitude = latitude
-        this.altitude = altitude
-
-        setAdditionalElements(*additionalElements)
-        checkAltitudeAndAdditionalElements()
-    }
 
     fun hasAltitude(): Boolean  = !java.lang.Double.isNaN(altitude)
 
@@ -98,15 +75,16 @@ class LngLatAlt : Serializable {
 
     override fun toString(): String {
         var s = "LngLatAlt{longitude=$longitude, latitude=$latitude, altitude=$altitude"
-        
-        if (hasAdditionalElements()) s += additionalElements.joinToString(prefix = ", additionalElements=[",  postfix = "]")
-
-        s += '}'.toString()
-
+        s += if (additionalElements.isNotEmpty()) additionalElements.joinToString(prefix = ", additionalElements=[",  postfix = "]}") else "}"
         return s
     }
 
     private fun checkAltitudeAndAdditionalElements() {
         require(hasAltitude() || !hasAdditionalElements()) { "Additional Elements are only valid if Altitude is also provided." }
+    }
+
+    init {
+        setAdditionalElements(*additionalElements)
+        checkAltitudeAndAdditionalElements()
     }
 }

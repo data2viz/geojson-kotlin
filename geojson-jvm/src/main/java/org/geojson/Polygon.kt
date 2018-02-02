@@ -21,7 +21,7 @@ class Polygon : Geometry<List<LngLatAlt>> {
             return coordinates.subList(1, coordinates.size)
         }
 
-    constructor() {}
+    constructor() 
 
     constructor(polygon: List<LngLatAlt>) {
         add(polygon)
@@ -55,7 +55,5 @@ class Polygon : Geometry<List<LngLatAlt>> {
         return geoJsonObjectVisitor.visit(this) as T 
     }
 
-    override fun toString(): String {
-        return "Polygon{} " + super.toString()
-    }
+    override fun toString(): String = "Polygon{} ${super.toString()}"
 }
