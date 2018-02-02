@@ -20,13 +20,7 @@ class Crs : Serializable {
         } else !if (type != null) type != crs.type else crs.type != null
     }
 
-    override fun hashCode(): Int {
-        var result = if (type != null) type!!.hashCode() else 0
-        result = 31 * result + if (properties != null) properties!!.hashCode() else 0
-        return result
-    }
+    override fun hashCode(): Int = 31 * (type?.hashCode() ?: 0) + (properties?.hashCode() ?: 0)
 
-    override fun toString(): String {
-        return "Crs{" + "type='" + type + '\''.toString() + ", properties=" + properties + '}'.toString()
-    }
+    override fun toString(): String = "Crs{type='$type', properties=$properties}"
 }
