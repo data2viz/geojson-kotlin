@@ -1,10 +1,9 @@
 package org.geojson
 
-import java.util.ArrayList
 
 abstract class Geometry<T> : GeoJsonObject {
 
-    var coordinates: MutableList<T> = ArrayList()
+    var coordinates: MutableList<T> = mutableListOf()
 
     constructor()
 

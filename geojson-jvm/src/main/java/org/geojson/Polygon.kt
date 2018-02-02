@@ -1,6 +1,5 @@
 package org.geojson
 
-import java.util.Arrays
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 
@@ -28,7 +27,7 @@ class Polygon : Geometry<List<LngLatAlt>> {
     }
 
     constructor(vararg polygon: LngLatAlt) {
-        add(Arrays.asList(*polygon))
+        add(polygon.asList())
     }
 
     fun getInteriorRing(index: Int): List<LngLatAlt> {
@@ -43,13 +42,10 @@ class Polygon : Geometry<List<LngLatAlt>> {
 
     fun addInteriorRing(vararg points: LngLatAlt) {
         assertExteriorRing()
-        coordinates.add(Arrays.asList(*points))
+        coordinates.add(points.asList())
     }
 
-    private fun assertExteriorRing() {
-        if (coordinates.isEmpty())
-            throw RuntimeException("No exterior ring definied")
-    }
+    private fun assertExteriorRing() = check(coordinates.isNotEmpty()) {"No exterior ring defined"}
 
     override fun <T> accept(geoJsonObjectVisitor: GeoJsonObjectVisitor<T>): T {
         return geoJsonObjectVisitor.visit(this) as T 

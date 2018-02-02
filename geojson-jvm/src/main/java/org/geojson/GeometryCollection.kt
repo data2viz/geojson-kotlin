@@ -1,10 +1,9 @@
 package org.geojson
 
-import java.util.ArrayList
 
 class GeometryCollection : GeoJsonObject(), Iterable<GeoJsonObject> {
 
-    private var geometries: MutableList<GeoJsonObject>? = ArrayList()
+    private var geometries: MutableList<GeoJsonObject>? = mutableListOf()
 
     fun getGeometries(): List<GeoJsonObject>? = geometries
 
