@@ -1,0 +1,13 @@
+{
+  "name": "test-geojson-serialization-js",
+  "dependencies": {
+    "source-map-support": "^0.5.3"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.3",
+    "qunit": "^1.0.0"
+  },
+  "scripts": {
+    "test": "mocha build/classes/kotlin/test/*_test.js --require=source-map-support/register"
+  }
+}
