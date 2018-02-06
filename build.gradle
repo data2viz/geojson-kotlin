@@ -1,13 +1,16 @@
 buildscript {
-    ext.kotlin_version = '1.2.20'
-
     repositories {
-        mavenCentral()
         jcenter()
+        mavenCentral()
+        maven { url "https://kotlin.bintray.com/kotlinx" }
+        maven { url "https://plugins.gradle.org/m2/" }
+
     }
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:$serialization_version"
+        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_version"
     }
 }
 
@@ -22,7 +25,9 @@ sourceCompatibility = 1.8
 subprojects {
     repositories {
         jcenter()
+        maven { url "https://kotlin.bintray.com/kotlinx" }
     }
+    
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'maven-publish'
 
@@ -44,7 +49,6 @@ subprojects {
         compileKotlin2Js {
             kotlinOptions {
                 metaInfo = true
-                outputFile = "${project.buildDir.path}/classes/main/${project.name}.js"
                 sourceMap = true
                 sourceMapEmbedSources = "always"
                 moduleKind = 'umd'
