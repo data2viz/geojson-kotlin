@@ -1,5 +1,10 @@
-GeoJson POJOs for Jackson
+GeoJson
 =========================
+
+This project goal is to provide some objects and serialization.
+
+https://tools.ietf.org/html/rfc7946
+
 
 A small package of all GeoJson POJOs (Plain Old Java Objects) for serializing and 
 deserializing of objects via JSON Jackson Parser.

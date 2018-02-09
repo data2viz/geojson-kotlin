@@ -21,7 +21,7 @@ class CrsTest {
         @Language("JSON")
         val value = mapper.readValue(
             """{"crs": { 
-                    "type": "LINK", 
+                    "type": "link", 
                     "properties": { 
                         "href": "http://example.com/crs/42", 
                         "type": "proj4" 
@@ -43,6 +43,6 @@ class CrsTest {
         crs.type = CrsType.LINK
         point.crs = crs
         val value = mapper.writeValueAsString(point)
-        assertEquals("{\"type\":\"Point\",\"crs\":{\"type\":\"LINK\",\"properties\":{}}}", value)
+        assertEquals("{\"type\":\"Point\",\"crs\":{\"type\":\"link\",\"properties\":{}}}", value)
     }
 }

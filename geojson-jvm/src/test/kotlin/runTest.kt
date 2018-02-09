@@ -1,0 +1,1 @@
+actual fun <T> runTest(block: suspend () -> T) {}

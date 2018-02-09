@@ -1,29 +1,5 @@
 package io.data2viz.geojson
 
-typealias Position = Array<Double>
-typealias Positions = Array<Position>
-typealias Lines = Array<Positions>
-
-
-val Position.lon: Double
-    get() = this[0]
-
-val Position.lat: Double
-    get() = this[1]
-
-val Position.alt: Double?
-    get() = if (size > 2) this[2] else null
-
-external interface Point{
-    val coordinates: Position
-}
-
-data class MultiPoint(val coordinates: Positions)
-data class LineString(val coordinates: Positions)
-data class MultiLineString(val coordinates: Lines)
-data class Polygon(val coordinates: Lines) {
-    val hasHoles = coordinates.size > 1
-}
 
 external interface Typed {
     val type:String
@@ -47,6 +23,7 @@ fun Typed.isPoint():Boolean = type == "Point"
 fun Typed.isMultiPoint():Boolean = type == "MultiPoint"
 fun Typed.isLineString():Boolean = type == "LineString"
 fun Typed.isPolygon():Boolean = type == "Polygon"
+fun Typed.isMultiPolygon():Boolean = type == "MultiPolygon"
 
 fun Typed.asFeatureCollection(): FeatureCollection {
     check(type == "FeatureCollection") {"Cast impossible: type must be FeatureCollection but is $type"}
@@ -77,6 +54,19 @@ fun Typed.asPolygon(): Polygon {
     check(type == "Polygon") { "Cast impossible, type must be Polygon but is $type" }
     return Polygon((this as Geometry).coordinates as Lines)
 }
+
+fun Typed.asMultiPolygon(): MultiPolygon {
+    check(type == "MultiPolygon") { "Cast impossible, type must be MultiPolygon but is $type" }
+    return MultiPolygon((this as Geometry).coordinates as Array<Surface>)
+}
+
+val FeatureCollection.multipolygons : List<MultiPolygon>
+    get() = features
+        .filter { it.geometry.isMultiPolygon() }
+        .map { it.geometry.asMultiPolygon()}
+    
+
+
 
 fun String.toGeoJson()  = JSON.parse<Typed>(this)
 

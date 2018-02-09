@@ -2,4 +2,12 @@ apply from: rootProject.file('gradle/test-mocha-js.gradle')
 
 
 dependencies {
+    expectedBy project(":geojson-common")
+    testCompile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version"
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }

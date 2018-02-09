@@ -28,14 +28,11 @@ class Feature : GeoJsonObject() {
     override fun <T> accept(geoJsonObjectVisitor: GeoJsonObjectVisitor<T>): T = geoJsonObjectVisitor.visit(this)!!
 
     override fun equals(o: Any?): Boolean {
-        if (this === o)
-            return true
-        if (o == null || javaClass != o.javaClass)
-            return false
-        if (!super.equals(o))
-            return false
-        val feature = o as Feature?
-        if (if (properties != null) properties != feature!!.properties else feature!!.properties != null)
+        if (this === o) return true
+        if (o == null || javaClass != o.javaClass) return false
+        if (!super.equals(o)) return false
+        val feature = o as Feature
+        if (  if (properties != null) properties != feature.properties else feature.properties != null)
             return false
         return if (if (geometry != null) geometry != feature.geometry else feature.geometry != null) false else !if (id != null) id != feature.id else feature.id != null
     }

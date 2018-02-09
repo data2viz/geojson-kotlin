@@ -22,16 +22,13 @@ node {
     download = true
 }
 
-task installDependencies(type: NpmTask) {
-    args = ['install', 'mocha', 'source-map-support']
-    if (project.hasProperty("teamcity")) args += 'mocha-teamcity-reporter'
+task installDependencies(type: YarnTask) {
+    args = ['install']
 }
 
 task prepareMocha(dependsOn: [compileTestKotlin2Js, populateNodeModules, installDependencies])
 
-task runMocha(type: NodeTask, dependsOn: prepareMocha) {
-    script = file('node_modules/mocha/bin/mocha')
-    args = [compileTestKotlin2Js.outputFile, '--require=source-map-support/register']
-}
+task runMocha(type: YarnTask, dependsOn: prepareMocha) {
+    args = ['test']}
 
 test.dependsOn runMocha

@@ -23,10 +23,10 @@ abstract class GeoJsonObject: Serializable {
     override fun equals(o: Any?): Boolean {
         if (this === o)
             return true
-        if (o == null || javaClass != o.javaClass)
+        if (o == null || this::class != o::class)
             return false
-        val that = o as GeoJsonObject?
-        return if (if (crs != null) crs != that!!.crs else that!!.crs != null) false else Arrays.equals(bbox, that.bbox)
+        val that = o as GeoJsonObject
+        return if (if (crs != null) crs != that.crs else that.crs != null) false else Arrays.equals(bbox, that.bbox)
     }
 
     override fun hashCode(): Int {
