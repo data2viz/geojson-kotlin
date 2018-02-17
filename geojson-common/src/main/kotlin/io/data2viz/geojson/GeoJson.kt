@@ -1,10 +1,10 @@
 package io.data2viz.geojson
 
 
-typealias Position = Array<Double>
+typealias Position  = Array<Double>
 typealias Positions = Array<Position>
-typealias Lines = Array<Positions>
-typealias Surface = Array<Lines>
+typealias Lines     = Array<Positions>
+typealias Surface   = Array<Lines>
 
 val Position.lon: Double
     get() = this[0]
@@ -36,9 +36,4 @@ data class Polygon(val coordinates: Lines): Geometry {
 data class MultiPolygon(val coordinates: Array<Surface>):Geometry
 data class GeometryCollection(val geometries: Array<Geometry>): Geometry
 
-
-/**
- * Parse a GeoJson String representing a Point
- */
-expect fun String.asPoint(): Point
 

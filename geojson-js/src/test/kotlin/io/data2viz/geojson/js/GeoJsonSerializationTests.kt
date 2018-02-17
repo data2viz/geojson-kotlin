@@ -24,7 +24,6 @@ class GeoJsonSerializationTests {
             val featureCollection = text.toGeoJson().asFeatureCollection()
             val multi = featureCollection.multipolygons
             val polygons = multi.flatMap { it.coordinates.toList() }
-            println("Polygon size:: ${polygons.size}")
             println("Parsing in ${Date.now() - start} ms")
             assertEquals(104, polygons.size)
         } else {
