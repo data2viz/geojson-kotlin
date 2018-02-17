@@ -28,7 +28,7 @@ task installDependencies(type: YarnTask) {
 
 task prepareMocha(dependsOn: [compileTestKotlin2Js, populateNodeModules, installDependencies])
 
-task runMocha(type: YarnTask, dependsOn: prepareMocha) {
+task runJsTests(type: YarnTask, dependsOn: prepareMocha) {
     args = ['test']}
 
-test.dependsOn runMocha
+test.dependsOn runJsTests

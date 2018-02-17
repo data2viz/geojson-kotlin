@@ -1,12 +1,7 @@
 {
   "name": "test-geojson-serialization-js",
-  "dependencies": {
-    "source-map-support": "^0.5.3"
-  },
   "devDependencies": {
-    "browserify": "^16.0.0",
     "karma": "^2.0.0",
-    "karma-browserify": "^5.2.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-commonjs": "^1.0.0",
     "karma-mocha": "^1.3.0",
@@ -14,9 +9,10 @@
     "karma-qunit": "^1.2.1",
     "mocha": "^5.0.0",
     "qunitjs": "^2.4.1",
-    "watchify": "^3.10.0"
+    "source-map-support": "0.5.3"
   },
   "scripts": {
+    "test-mocha": "mocha build/classes/kotlin/test/*test.js --require=source-map-support/register",
     "test": "karma start"
   }
 }

@@ -1,47 +1,42 @@
-package io.data2viz.geojson
+package io.data2viz.geojson.js
 
+import io.data2viz.geojson.Polygon
+import io.data2viz.geojson.lat
+import io.data2viz.geojson.lon
 import kotlinx.coroutines.experimental.*
 import org.w3c.fetch.Request
-import runTest
 import kotlin.browser.window
 import kotlin.js.Date
-import kotlin.js.Promise
 import kotlin.test.*
 
-
+val browserEnabled:Boolean = js("typeof document !== 'undefined'") as Boolean
 
 class GeoJsonSerializationTests {
- 
-    @Test
-    fun loadBigJson() = promise {
-        val request = window.fetch(Request("base/build/classes/kotlin/test/ny.json"))
-        val response = request.await()
-        val text = response.text().await()
-        val start = Date.now()
-        val featureCollection = text.toGeoJson().asFeatureCollection()
-        val multi = featureCollection.multipolygons
-        val polygons = multi.flatMap { it.coordinates.toList() }
-        println("Polygon size:: ${polygons.size}")
-        println("Parsing in ${Date.now() - start} ms")
-        assertEquals(104, polygons.size)
-    }
+
+    @Test 
+    fun testPromise()=
+        promise {
+            delay(50)
+            assertTrue(true)
+        }
 
     @Test
-    fun loadWithMap() = promise {
-        val request = window.fetch(Request("base/build/classes/kotlin/test/ny.json"))
-        val response = request.await()
-        val text = response.text().await()
-        val start = Date.now()
-        val asMap = JSON.parse<Map<String,Any>>(text)
-        
-        val type = asMap.get("type")
-        
-        val featureCollection = text.toGeoJson().asFeatureCollection()
-        val multi = featureCollection.multipolygons
-        val polygons = multi.flatMap { it.coordinates.toList() }
-        println("Polygon size:: ${polygons.size}")
-        println("Parsing in ${Date.now() - start} ms")
-        assertEquals(104, polygons.size)
+    fun loadBigJson() = promise {
+        if(browserEnabled){
+            val request = window.fetch(Request("base/build/classes/kotlin/test/ny.json"))
+            val response = request.await()
+            val text = response.text().await()
+            val start = Date.now()
+            val featureCollection = text.toGeoJson().asFeatureCollection()
+            val multi = featureCollection.multipolygons
+            val polygons = multi.flatMap { it.coordinates.toList() }
+            println("Polygon size:: ${polygons.size}")
+            println("Parsing in ${Date.now() - start} ms")
+            assertEquals(104, polygons.size)
+        } else {
+            println("Not in a browser environment => skip loadBigJson test.")
+        }
+
     }
 
     @Test
@@ -52,7 +47,7 @@ class GeoJsonSerializationTests {
         assertEquals(p.coordinates.lat, 2.0)
     }
 
-    @Test
+    @Test 
     fun lineString() {
 
         //language=JSON
@@ -61,14 +56,14 @@ class GeoJsonSerializationTests {
         assertEquals(1.0, lineString.coordinates[0].lon)
     }
 
-    @Test
+    @Test 
     fun multiPoint() {
         val json = """{"type":"MultiPoint", "coordinates":[[1.0, 2.0],[3.0,4.0]]}"""
         val lineString = json.toGeoJson().asMultiPoint()
         assertEquals(1.0, lineString.coordinates[0].lon)
     }
 
-    @Test
+    @Test 
     fun multiLineString() {
         val json = """{
          "type": "MultiLineString",
@@ -88,7 +83,7 @@ class GeoJsonSerializationTests {
         assertEquals(101.0, multiLineString.coordinates[0][1].lon)
     }
 
-    @Test
+    @Test 
     fun polygonWithoutHole() {
         val json = """ {
          "type": "Polygon",
@@ -107,7 +102,7 @@ class GeoJsonSerializationTests {
         assertFalse(polygon.hasHoles)
     }
 
-    @Test
+    @Test 
     fun polygonWithHoles() {
         val json = """ {
          "type": "Polygon",
@@ -132,9 +127,30 @@ class GeoJsonSerializationTests {
         val polygon = json.toGeoJson().asPolygon()
         assertTrue(polygon.hasHoles)
     }
+    
+    @Test 
+    fun geometryCollection(){
+        val json = """
+            {
+         "type": "GeometryCollection",
+         "geometries": [{
+             "type": "Point",
+             "coordinates": [100.0, 0.0]
+         }, {
+             "type": "LineString",
+             "coordinates": [
+                 [101.0, 0.0],
+                 [102.0, 1.0]
+             ]
+         }]
+     }
+
+        """.trimIndent()
+        val geometryCollection = json.toGeoJson().asGeometryCollection()
+    }
 
 
-    @Test
+    @Test 
     fun featureCollection() {
         val json = """
    {
@@ -192,10 +208,10 @@ class GeoJsonSerializationTests {
         assertEquals(3, featureCollection.features.size)
         val feature = featureCollection.features[2]
 
-        val props = feature.properties as PolygonProps
-        assertEquals("value0", props.prop0)
+//        val props = feature.properties as PolygonProps
+//        assertEquals("value0", props.prop0)
 
-        val polygon: Polygon = feature.geometry.asPolygon()
+        val polygon: Polygon = feature.geometry as Polygon
 
         assertEquals(100.0, polygon.coordinates[0][0].lon)
     }
