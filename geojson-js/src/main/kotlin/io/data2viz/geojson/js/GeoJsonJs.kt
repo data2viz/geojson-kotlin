@@ -6,6 +6,12 @@ external interface Typed {
     val type:String
 }
 
+fun Typed.asFeature(): Feature {
+    check(type == "Feature") {"Cast impossible: type must be Feature but is $type"}
+    val typed:Typed = asDynamic().geometry
+    return Feature(typed.asGeometry())
+}
+
 fun Typed.asFeatureCollection(): FeatureCollection {
     check(type == "FeatureCollection") {"Cast impossible: type must be FeatureCollection but is $type"}
     val dyn:dynamic = this
@@ -14,16 +20,12 @@ fun Typed.asFeatureCollection(): FeatureCollection {
     val size:Int = featureJs.length
     for (i in 0 until size) {
         val feature = featureJs[i]
-        val geometry:Typed = feature.geometry
-        features[i] = Feature(geometry.asGeometry())
+        val typed:Typed = feature.geometry
+        features[i] = Feature(typed.asGeometry())
     }
     return FeatureCollection(features)
 }
 
-data class FeatureJs(
-    val geometry: Geometry,
-    val id:String?
-)
 
 
 fun Typed.asGeometry():Geometry =
