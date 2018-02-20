@@ -23,8 +23,8 @@ actual fun String.toGeoJsonObject(): GeoJsonObject =
 
 private fun io.data2viz.geojson.jackson.GeoJsonObject.toGeoJsonObject(): GeoJsonObject = when (this) {
 	is JacksonPoint 					-> this.toPoint()
+	is JacksonLineString 				-> this.toLineString() //be carefull to keep this order (LineString is a MultiPoint)
 	is JacksonMultiPoint 				-> this.toMultiPoint()
-	is JacksonLineString 				-> this.toLineString()
 	is JacksonMultiLineString 			-> this.toMultiLineString()
 	is JacksonPolygon 					-> this.toPolygon()
 	is JacksonMultiPolygon 				-> this.toMultiPolygon()
@@ -38,8 +38,8 @@ private fun io.data2viz.geojson.jackson.GeoJsonObject.toGeoJsonObject(): GeoJson
 }
 
 private fun JacksonPoint.toPoint()									= Point(this.coordinates.toPosition())
-private fun JacksonMultiPoint.toMultiPoint() 						= MultiPoint(this.coordinates.toLine())
-private fun JacksonLineString.toLineString() 						= LineString(this.coordinates.toLine())
+private fun io.data2viz.geojson.jackson.MultiPoint.toMultiPoint() 						= MultiPoint(this.coordinates.toLine())
+private fun io.data2viz.geojson.jackson.LineString.toLineString() 						= LineString(this.coordinates.toLine())
 private fun JacksonMultiLineString.toMultiLineString() 				= MultiLineString(this.coordinates.toSurface())
 private fun JacksonPolygon.toPolygon() 								= Polygon(this.coordinates.toSurface())
 private fun JacksonMultiPolygon.toMultiPolygon() 					= MultiPolygon(this.coordinates.toSurfaces())
