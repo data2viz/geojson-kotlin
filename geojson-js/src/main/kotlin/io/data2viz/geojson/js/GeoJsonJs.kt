@@ -6,7 +6,6 @@ external interface Typed {
     val type:String
 }
 
-fun String.toGeoJsonObject(): GeoJsonObject  = JSON.parse<Typed>(this).asGeoJsonObject()
 
 fun Typed.asGeoJsonObject():GeoJsonObject =
     when (type) {
@@ -29,8 +28,7 @@ fun Typed.asGeoJsonObject():GeoJsonObject =
         else                    -> throw IllegalStateException("${type} is not known")
     }
 
-fun Typed.asFeatureCollection(): FeatureCollection {
-    check(type == "FeatureCollection") {"Cast impossible: type must be FeatureCollection but is $type"}
+private fun Typed.asFeatureCollection(): FeatureCollection {
     val dyn:dynamic = this
     val featureJs:dynamic = dyn.features
     val features:dynamic = Array<Geometry>(0, {Point(arrayOf())})

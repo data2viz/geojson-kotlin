@@ -39,4 +39,7 @@ data class MultiPolygon(val coordinates: Array<Surface>):Geometry
 data class GeometryCollection(val geometries: Array<Geometry>): Geometry
 
 
-
+/**
+ * Parse the String as a GeoJsonObject
+ */
+expect fun String.toGeoJsonObject():GeoJsonObject
