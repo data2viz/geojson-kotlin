@@ -35,7 +35,7 @@ data class MultiLineString(val coordinates: Lines): Geometry
 data class Polygon(val coordinates: Lines): Geometry {
     val hasHoles = coordinates.size > 1
 }
-data class MultiPolygon(val coordinates: Array<Surface>):Geometry
+data class MultiPolygon(val coordinates: Surface):Geometry
 data class GeometryCollection(val geometries: Array<Geometry>): Geometry
 
 

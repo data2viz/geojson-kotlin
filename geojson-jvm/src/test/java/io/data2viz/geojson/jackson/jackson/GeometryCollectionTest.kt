@@ -2,8 +2,6 @@ package io.data2viz.geojson.jackson.jackson
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.data2viz.geojson.jackson.*
-import org.geojson.*
-import org.geojson.jackson.*
 import org.junit.Test
 
 import org.junit.Assert.*

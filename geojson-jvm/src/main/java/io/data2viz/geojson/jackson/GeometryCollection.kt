@@ -3,9 +3,9 @@ package io.data2viz.geojson.jackson
 
 class GeometryCollection : GeoJsonObject(), Iterable<GeoJsonObject> {
 
-    private var geometries: MutableList<GeoJsonObject>? = mutableListOf()
+    private var geometries: MutableList<GeoJsonObject> = mutableListOf()
 
-    fun getGeometries(): List<GeoJsonObject>? = geometries
+    fun getGeometries(): List<GeoJsonObject> = geometries
 
     fun setGeometries(geometries: MutableList<GeoJsonObject>) {
         this.geometries = geometries

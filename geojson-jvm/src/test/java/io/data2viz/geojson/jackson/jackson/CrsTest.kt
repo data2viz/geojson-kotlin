@@ -38,11 +38,12 @@ class CrsTest {
     @Test
     @Throws(Exception::class)
     fun itShouldSerializeCrsWithLink() {
-        val point = Point()
+        val point = Point(100.0, 1.0)
         val crs = Crs()
         crs.type = CrsType.LINK
         point.crs = crs
         val value = mapper.writeValueAsString(point)
-        assertEquals("{\"type\":\"Point\",\"crs\":{\"type\":\"link\",\"properties\":{}}}", value)
+        //language=JSON
+        assertEquals("""{"type":"Point","crs":{"type":"link","properties":{}},"coordinates":[100.0,1.0]}""", value)
     }
 }

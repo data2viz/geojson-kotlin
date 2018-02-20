@@ -21,8 +21,9 @@ class PointTest {
     @Throws(Exception::class)
     fun itShouldSerializeAPoint() {
         val point = Point(100.0, 0.0)
+        //language=JSON
         assertEquals(
-            "{\"type\":\"Point\",\"coordinates\":[100.0,0.0]}",
+            """{"type":"Point","coordinates":[100.0,0.0]}""",
             mapper.writeValueAsString(point)
         )
     }

@@ -2,7 +2,7 @@ package io.data2viz.geojson.jackson
 
 class Point : GeoJsonObject {
 
-    var coordinates: LngLatAlt? = null
+    var coordinates: LngLatAlt = LngLatAlt(Double.NaN, Double.NaN)
 
     constructor() {}
 
