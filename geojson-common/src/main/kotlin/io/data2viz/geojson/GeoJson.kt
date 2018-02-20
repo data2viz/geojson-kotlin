@@ -16,14 +16,16 @@ val Position.alt: Double?
     get() = if (size > 2) this[2] else null
 
 
-interface Geometry
+interface GeoJsonObject
 
-data class FeatureCollection(val features: Array<Feature>)
+interface Geometry : GeoJsonObject
+
+data class FeatureCollection(val features: Array<Feature>): GeoJsonObject
 
 data class Feature(
     val geometry: Geometry,
     val id:String? = null
-) 
+) : GeoJsonObject
 
 
 data class Point(val coordinates: Position): Geometry
@@ -35,5 +37,6 @@ data class Polygon(val coordinates: Lines): Geometry {
 }
 data class MultiPolygon(val coordinates: Array<Surface>):Geometry
 data class GeometryCollection(val geometries: Array<Geometry>): Geometry
+
 
 
