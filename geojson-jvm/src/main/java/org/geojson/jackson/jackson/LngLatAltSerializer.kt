@@ -1,8 +1,8 @@
-package org.geojson.jackson
+package org.geojson.jackson.jackson
 
 import java.io.IOException
 
-import org.geojson.LngLatAlt
+import org.geojson.jackson.LngLatAlt
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.JsonSerializer

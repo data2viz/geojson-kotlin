@@ -1,4 +1,4 @@
-package org.geojson
+package org.geojson.jackson
 
 /**
  * Visitor to handle all different types of [GeoJsonObject].

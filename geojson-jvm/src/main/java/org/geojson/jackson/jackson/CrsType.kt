@@ -1,4 +1,4 @@
-package org.geojson.jackson
+package org.geojson.jackson.jackson
 
 import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.annotation.JsonCreator

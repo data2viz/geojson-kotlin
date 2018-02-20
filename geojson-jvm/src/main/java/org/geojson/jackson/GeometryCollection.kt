@@ -1,4 +1,4 @@
-package org.geojson
+package org.geojson.jackson
 
 
 class GeometryCollection : GeoJsonObject(), Iterable<GeoJsonObject> {

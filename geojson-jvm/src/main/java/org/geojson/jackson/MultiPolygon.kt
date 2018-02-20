@@ -1,4 +1,4 @@
-package org.geojson
+package org.geojson.jackson
 
 class MultiPolygon : Geometry<List<List<LngLatAlt>>> {
 

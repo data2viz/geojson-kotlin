@@ -1,10 +1,10 @@
-package org.geojson.jackson
+package org.geojson.jackson.jackson
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
-import org.geojson.LngLatAlt
+import org.geojson.jackson.LngLatAlt
 
 import java.io.IOException
 import java.util.ArrayList

@@ -1,4 +1,4 @@
-package org.geojson
+package org.geojson.jackson
 
 
 abstract class Geometry<T> : GeoJsonObject {

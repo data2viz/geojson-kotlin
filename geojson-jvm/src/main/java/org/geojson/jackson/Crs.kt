@@ -1,9 +1,10 @@
-package org.geojson
+package org.geojson.jackson
 
-import org.geojson.jackson.CrsType
+import org.geojson.jackson.jackson.CrsType
 
 import java.io.Serializable
 import java.util.HashMap
+
 
 
 class Crs : Serializable {
