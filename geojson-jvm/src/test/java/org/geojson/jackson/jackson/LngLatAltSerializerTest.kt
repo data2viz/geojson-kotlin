@@ -1,6 +1,6 @@
-package org.geojson.jackson
+package org.geojson.jackson.jackson
 
-import org.geojson.LngLatAlt
+import org.geojson.jackson.LngLatAlt
 import org.junit.Assert
 import org.junit.Test
 

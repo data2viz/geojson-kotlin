@@ -1,8 +1,8 @@
-package org.geojson.jackson
+package org.geojson.jackson.jackson
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.geojson.LineString
-import org.geojson.LngLatAlt
+import org.geojson.jackson.LineString
+import org.geojson.jackson.LngLatAlt
 import org.intellij.lang.annotations.Language
 import org.junit.Test
 
@@ -16,7 +16,10 @@ class LineStringTest {
     @Test
     @Throws(Exception::class)
     fun itShouldSerializeMultiPoint() {
-        val lineString = LineString(LngLatAlt(100.0, 0.0), LngLatAlt(101.0, 1.0))
+        val lineString = LineString(
+            LngLatAlt(100.0, 0.0),
+            LngLatAlt(101.0, 1.0)
+        )
         //language=JSON
         assertEquals(
             """{"type":"LineString","coordinates":[[100.0,0.0],[101.0,1.0]]}""",

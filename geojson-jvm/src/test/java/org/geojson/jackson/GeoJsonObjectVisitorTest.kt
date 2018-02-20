@@ -1,4 +1,4 @@
-package org.geojson
+package org.geojson.jackson
 
 import org.junit.Assert
 import org.junit.Test
@@ -76,7 +76,16 @@ class GeoJsonObjectVisitorTest(private val geoJsonObject: GeoJsonObject) {
                     arrayOf<Any>(FeatureCollection()),
                     arrayOf<Any>(Point(12.0, 13.0)),
                     arrayOf<Any>(Feature()),
-                    arrayOf<Any>(MultiLineString(Arrays.asList(LngLatAlt(12.0, 13.0)))),
+                    arrayOf<Any>(
+                        MultiLineString(
+                            Arrays.asList(
+                                LngLatAlt(
+                                    12.0,
+                                    13.0
+                                )
+                            )
+                        )
+                    ),
                     arrayOf<Any>(Polygon()),
                     arrayOf<Any>(MultiPolygon()),
                     arrayOf<Any>(MultiPoint()),

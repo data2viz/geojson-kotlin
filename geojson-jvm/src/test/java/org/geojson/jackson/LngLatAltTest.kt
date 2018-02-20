@@ -1,7 +1,8 @@
-package org.geojson
+package org.geojson.jackson
 
 import org.junit.Assert
 import org.junit.Test
+import java.lang.Double
 
 class LngLatAltTest {
 
@@ -76,7 +77,7 @@ class LngLatAltTest {
     @Test
     fun should_LngLatAlt_throw_if_alt_not_specified_in_constructor() {
         try {
-            LngLatAlt(14.0, 14.0, java.lang.Double.NaN, 16.0, 17.0)
+            LngLatAlt(14.0, 14.0, Double.NaN, 16.0, 17.0)
             Assert.fail("Additional elements are not allowed if altitude is Nan.")
         } catch (e: IllegalArgumentException) {
             Assert.assertTrue("Expected exception.", true)
@@ -112,7 +113,7 @@ class LngLatAltTest {
 
     @Test
     fun should_LngLatAlt_throw_if_additional_elements_set_with_Nan_alt() {
-        val lngLatAlt = LngLatAlt(14.0, 14.0, java.lang.Double.NaN)
+        val lngLatAlt = LngLatAlt(14.0, 14.0, Double.NaN)
 
         try {
             lngLatAlt.setAdditionalElements(42.0)
@@ -126,7 +127,7 @@ class LngLatAltTest {
     @Test
     fun should_LngLatAlt_throw_if_any_additional_elements_constructed_to_Nan() {
         try {
-            LngLatAlt(14.0, 14.0, 15.0, 16.0, java.lang.Double.NaN, 17.0)
+            LngLatAlt(14.0, 14.0, 15.0, 16.0, Double.NaN, 17.0)
             Assert.fail("Additional elements are not allowed to be Nan.")
         } catch (e: IllegalArgumentException) {
             Assert.assertTrue("Expected exception.", true)
@@ -137,7 +138,7 @@ class LngLatAltTest {
     @Test
     fun should_LngLatAlt_throw_if_any_additional_elements_constructed_to_Positive_Infinity() {
         try {
-            LngLatAlt(14.0, 14.0, 15.0, 16.0, java.lang.Double.POSITIVE_INFINITY, 17.0)
+            LngLatAlt(14.0, 14.0, 15.0, 16.0, Double.POSITIVE_INFINITY, 17.0)
             Assert.fail("Additional elements are not allowed to be positive infinity.")
         } catch (e: IllegalArgumentException) {
             Assert.assertTrue("Expected exception.", true)
@@ -148,7 +149,7 @@ class LngLatAltTest {
     @Test
     fun should_LngLatAlt_throw_if_any_additional_elements_constructed_to_Negative_Infinity() {
         try {
-            LngLatAlt(14.0, 14.0, 15.0, 16.0, java.lang.Double.NEGATIVE_INFINITY, 17.0)
+            LngLatAlt(14.0, 14.0, 15.0, 16.0, Double.NEGATIVE_INFINITY, 17.0)
             Assert.fail("Additional elements are not allowed to be positive infinity.")
         } catch (e: IllegalArgumentException) {
             Assert.assertTrue("Expected exception.", true)

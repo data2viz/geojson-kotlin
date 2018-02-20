@@ -1,10 +1,10 @@
-package org.geojson.jackson
+package org.geojson.jackson.jackson
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.geojson.GeoJsonObject
-import org.geojson.LngLatAlt
-import org.geojson.Point
+import org.geojson.jackson.GeoJsonObject
+import org.geojson.jackson.LngLatAlt
+import org.geojson.jackson.Point
 import org.intellij.lang.annotations.Language
 import org.junit.Test
 

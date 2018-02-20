@@ -1,4 +1,4 @@
-package org.geojson
+package org.geojson.jackson
 
 import org.junit.Test
 
@@ -58,7 +58,9 @@ class ToStringTest {
     @Throws(Exception::class)
     fun itShouldToStringPolygon() {
         val geometry = Polygon(
-            LngLatAlt(10.0, 20.0), LngLatAlt(30.0, 40.0), LngLatAlt(10.0, 40.0),
+            LngLatAlt(10.0, 20.0),
+            LngLatAlt(30.0, 40.0),
+            LngLatAlt(10.0, 40.0),
             LngLatAlt(10.0, 20.0)
         )
         assertEquals(
@@ -80,7 +82,10 @@ class ToStringTest {
         )
         geometry.add(
             Polygon(
-                LngLatAlt(5.0, 20.0), LngLatAlt(30.0, 40.0), LngLatAlt(10.0, 40.0), LngLatAlt(
+                LngLatAlt(5.0, 20.0),
+                LngLatAlt(30.0, 40.0),
+                LngLatAlt(10.0, 40.0),
+                LngLatAlt(
                     5.0,
                     20.0
                 )
@@ -102,7 +107,10 @@ class ToStringTest {
     @Test
     @Throws(Exception::class)
     fun itShouldToStringLineString() {
-        val geometry = LineString(LngLatAlt(49.0, 9.0), LngLatAlt(41.0, 1.0))
+        val geometry = LineString(
+            LngLatAlt(49.0, 9.0),
+            LngLatAlt(41.0, 1.0)
+        )
         assertEquals(
             "LineString{} MultiPoint{} Geometry{coordinates=["
                     + "LngLatAlt{longitude=49.0, latitude=9.0, altitude=NaN}, "
@@ -114,7 +122,12 @@ class ToStringTest {
     @Test
     @Throws(Exception::class)
     fun itShouldToStringMultiLineString() {
-        val geometry = MultiLineString(Arrays.asList(LngLatAlt(49.0, 9.0), LngLatAlt(41.0, 1.0)))
+        val geometry = MultiLineString(
+            Arrays.asList(
+                LngLatAlt(49.0, 9.0),
+                LngLatAlt(41.0, 1.0)
+            )
+        )
         geometry.add(Arrays.asList(LngLatAlt(10.0, 20.0), LngLatAlt(30.0, 40.0)))
         assertEquals(
             "MultiLineString{} Geometry{coordinates=[[LngLatAlt{longitude=49.0, latitude=9.0, altitude=NaN}, "

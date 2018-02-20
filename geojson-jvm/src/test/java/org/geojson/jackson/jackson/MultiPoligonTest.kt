@@ -1,9 +1,9 @@
-package org.geojson.jackson
+package org.geojson.jackson.jackson
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.geojson.LngLatAlt
-import org.geojson.MultiPolygon
-import org.geojson.Polygon
+import org.geojson.jackson.LngLatAlt
+import org.geojson.jackson.MultiPolygon
+import org.geojson.jackson.Polygon
 import org.intellij.lang.annotations.Language
 import org.junit.Test
 
@@ -19,8 +19,11 @@ class MultiPoligonTest {
         val multiPolygon = MultiPolygon()
         multiPolygon.add(
             Polygon(
-                LngLatAlt(102.0, 2.0), LngLatAlt(103.0, 2.0), LngLatAlt(103.0, 3.0),
-                LngLatAlt(102.0, 3.0), LngLatAlt(102.0, 2.0)
+                LngLatAlt(102.0, 2.0),
+                LngLatAlt(103.0, 2.0),
+                LngLatAlt(103.0, 3.0),
+                LngLatAlt(102.0, 3.0),
+                LngLatAlt(102.0, 2.0)
             )
         )
         val polygon = Polygon(MockData.EXTERNAL)

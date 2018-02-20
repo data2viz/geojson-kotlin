@@ -1,7 +1,7 @@
-package org.geojson.jackson
+package org.geojson.jackson.jackson
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.geojson.LngLatAlt
+import org.geojson.jackson.LngLatAlt
 import org.junit.Assert
 import org.junit.Test
 

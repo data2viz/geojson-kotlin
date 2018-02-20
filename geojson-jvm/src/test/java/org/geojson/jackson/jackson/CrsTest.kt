@@ -1,9 +1,9 @@
-package org.geojson.jackson
+package org.geojson.jackson.jackson
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.geojson.Crs
-import org.geojson.GeoJsonObject
-import org.geojson.Point
+import org.geojson.jackson.Crs
+import org.geojson.jackson.GeoJsonObject
+import org.geojson.jackson.Point
 import org.intellij.lang.annotations.Language
 import org.junit.Test
 

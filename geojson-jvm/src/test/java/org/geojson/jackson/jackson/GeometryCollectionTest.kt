@@ -1,7 +1,8 @@
-package org.geojson.jackson
+package org.geojson.jackson.jackson
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.geojson.*
+import org.geojson.jackson.*
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -15,7 +16,12 @@ class GeometryCollectionTest {
     fun itShouldSerialize() {
         val gc = GeometryCollection()
         gc.add(Point(100.0, 0.0))
-        gc.add(LineString(LngLatAlt(101.0, 0.0), LngLatAlt(102.0, 1.0)))
+        gc.add(
+            LineString(
+                LngLatAlt(101.0, 0.0),
+                LngLatAlt(102.0, 1.0)
+            )
+        )
         assertEquals(
             "{\"type\":\"GeometryCollection\","
                     + "\"geometries\":[{\"type\":\"Point\",\"coordinates\":[100.0,0.0]},"

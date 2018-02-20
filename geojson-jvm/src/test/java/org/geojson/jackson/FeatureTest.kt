@@ -1,4 +1,4 @@
-package org.geojson
+package org.geojson.jackson
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.Test
