@@ -1,6 +1,6 @@
 dependencies {
     
-//    expectedBy project(":geojson-common")
+    expectedBy project(":geojson-common")
     
     compile "com.fasterxml.jackson.core:jackson-core:2.7.3"
     compile "com.fasterxml.jackson.core:jackson-databind:2.7.3"
