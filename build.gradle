@@ -85,7 +85,7 @@ subprojects {
                 name = 'geojson-kotlin'
                 userOrg = 'data2viz'
                 licenses = ['Apache-2.0']
-                vcsUrl = 'https://github.com/data2viz/geojson.git'
+                vcsUrl = 'https://github.com/data2viz/geojson-kotlin.git'
                 version {
                     name = "${project.version}"
 //                desc = "data2viz-${project.name}"

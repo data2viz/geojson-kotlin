@@ -1,6 +1,11 @@
 GeoJson Kotlin
 =========================
 
+[![Download](https://api.bintray.com/packages/data2viz/geojson-kotlin/geojson-kotlin/images/download.svg) ](https://bintray.com/data2viz/geojson-kotlin/geojson-kotlin/_latestVersion)
+[![Build Status](https://travis-ci.org/data2viz/geojson-kotlin.svg?branch=master)](https://travis-ci.org/data2viz/geojson-kotlin)
+[![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0) 
+
+
 This project goal is to provide GeoJson serialization for kotlin multiplatform (JVM, JS).
 
 
