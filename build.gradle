@@ -73,11 +73,46 @@ subprojects {
 
     }
 
+    def varintName = ""
+    varintName = "${project.name}"
+
+    afterEvaluate {
+        task sourceJar(type: Jar, dependsOn: classes) {
+            classifier 'sources'
+            from sourceSets.main.kotlin
+            if (project.name.endsWith("jvm") || project.name.endsWith("js")) {
+                duplicatesStrategy = "exclude"
+                def platformSrc = sourceSets.main.kotlin
+                def commonSrc = project(':geojson-common').sourceSets.main.kotlin
+                from(platformSrc + commonSrc)
+            }
+        }
+    }
+
+    tasks.withType(Jar) {
+        archivesBaseName = varintName
+    }
+
+    publishing {
+        publications {
+            mavenProject(MavenPublication) {
+                from components.java
+                groupId project.group
+                artifactId varintName
+                version project.version
+
+                artifact sourceJar {
+                    classifier "sources"
+                }
+            }
+        }
+    }
 
     if (project.hasProperty("bintray.user")) {
         bintray {
             user = project.property('bintray.user')
             key = project.property('bintray.key')
+            publications = ['mavenProject']
             configurations = ['archives']
 
             pkg {
