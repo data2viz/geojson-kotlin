@@ -9,7 +9,6 @@ buildscript {
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:$serialization_version"
         classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_version"
     }
 }
@@ -19,6 +18,7 @@ version '0.1-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven'
 
 sourceCompatibility = 1.8
 
@@ -29,6 +29,7 @@ subprojects {
     }
     
     apply plugin: 'com.jfrog.bintray'
+    apply plugin: 'maven'
     apply plugin: 'maven-publish'
 
 
@@ -80,8 +81,8 @@ subprojects {
             configurations = ['archives']
 
             pkg {
-                repo = 'data2viz'
-                name = 'data2viz'
+                repo = 'geojson-kotlin'
+                name = 'geojson-kotlin'
                 userOrg = 'data2viz'
                 licenses = ['Apache-2.0']
                 vcsUrl = 'https://github.com/data2viz/geojson.git'

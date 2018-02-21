@@ -12,4 +12,9 @@ dependencies {
     testCompile "junit:junit:4.12"
 }
 
-apply plugin: 'kotlinx-serialization'
+task copyJsonTestFiles(type: Copy) {
+    from "../geojson-common/src/test/resources"
+    into "${buildDir}/classes/kotlin/test"
+}
+
+test.dependsOn copyJsonTestFiles

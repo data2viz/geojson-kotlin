@@ -21,7 +21,7 @@ typealias JacksonFeatureCollection 	= io.data2viz.geojson.jackson.FeatureCollect
 actual fun String.toGeoJsonObject(): GeoJsonObject =
 	ObjectMapper().readValue(this, JacksonGeoJsonObject::class.java).toGeoJsonObject()
 
-private fun io.data2viz.geojson.jackson.GeoJsonObject.toGeoJsonObject(): GeoJsonObject = when (this) {
+fun io.data2viz.geojson.jackson.GeoJsonObject.toGeoJsonObject(): GeoJsonObject = when (this) {
 	is JacksonPoint 					-> this.toPoint()
 	is JacksonLineString 				-> this.toLineString() //be carefull to keep this order (LineString is a MultiPoint)
 	is JacksonMultiPoint 				-> this.toMultiPoint()
