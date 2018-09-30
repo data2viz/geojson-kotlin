@@ -17,4 +17,29 @@ JVM implementations are completely distinct but they share the same base objects
 
 JVM implementation is based on the project [GeoJson-Jackson](https://github.com/opendatalab-de/geojson-jackson).
 
+The project is deployed on maven central so you have to define it in your repositories.
+
+```groovy
+repositories {
+    mavenCentral()
+}
+```
+
+
+To use it in a JS context add the following dependency: 
+```groovy
+    compile 'io.data2viz.geojson:geojson-js:0.6.0'
+```
+
+To use it in a JVM context add the following dependency: 
+```groovy
+    compile 'io.data2viz.geojson:geojson-jvm:0.6.0'
+```
+
+You can then use the String extension toGeoJsonObject to transform any String into a GeoJsonObject:
+
+```kotlin
+val featureCollection = json.toGeoJsonObject() as FeatureCollection
+```
+
 
