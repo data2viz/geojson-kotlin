@@ -10,11 +10,9 @@ buildscript {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_version"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
     }
 }
-
-group 'io.data2viz'
-version '0.1-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'com.jfrog.bintray'
@@ -71,6 +69,28 @@ subprojects {
         compileKotlin     { kotlinOptions.jvmTarget = 1.8 }
         compileTestKotlin { kotlinOptions.jvmTarget = 1.8 }
 
+        apply plugin: 'org.jetbrains.dokka'
+
+        tasks.withType(dokka.getClass()) {
+            jdkVersion = 8
+            includes = ['README.md']
+        }
+
+        dokka {
+            outputFormat = 'kotlin-website'
+        }
+
+// real xxx-javadoc.jar for JVM
+        task dokkaJavadoc(type: dokka.getClass()) {
+            outputFormat = 'javadoc'
+            outputDirectory = "$buildDir/javadoc"
+        }
+
+        task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+            classifier = 'javadoc'
+            from "$buildDir/javadoc"
+        }
+
     }
 
     def varintName = ""
@@ -100,6 +120,9 @@ subprojects {
                 groupId project.group
                 artifactId varintName
                 version project.version
+
+                if(project.name.endsWith("jvm"))
+                    artifact javadocJar
 
                 artifact sourceJar {
                     classifier "sources"
