@@ -20,16 +20,25 @@ apply plugin: 'maven'
 
 sourceCompatibility = 1.8
 
+static def platformOf(project) {
+    if (project.name.endsWith("-android")) return "android"
+    if (project.name.endsWith("-common")) return "common"
+    if (project.name.endsWith("-js")) return "js"
+    if (project.name.endsWith("-jfx")) return "jfx"
+    if (project.name.endsWith("-jvm")) return "jvm"
+    return "example"
+}
+
+
 subprojects {
     repositories {
         jcenter()
         maven { url "https://kotlin.bintray.com/kotlinx" }
     }
-    
+
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
-
 
     if (project.name.contains('-common')) {
         apply plugin: 'kotlin-platform-common'
@@ -66,7 +75,7 @@ subprojects {
         }
 
         //for tornadoFx
-        compileKotlin     { kotlinOptions.jvmTarget = 1.8 }
+        compileKotlin { kotlinOptions.jvmTarget = 1.8 }
         compileTestKotlin { kotlinOptions.jvmTarget = 1.8 }
 
         apply plugin: 'org.jetbrains.dokka'
@@ -113,6 +122,28 @@ subprojects {
         archivesBaseName = varintName
     }
 
+    def pomConfig = {
+        licenses {
+            license {
+                name "The Apache Software License, Version 2.0"
+                url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution "repo"
+            }
+        }
+        developers {
+            developer {
+                id "Data2viz"
+                name "Data2viz team"
+                organization "Data2viz"
+                organizationUrl "https://data2viz.io"
+            }
+        }
+
+        scm {
+            url "https://github.com/data2viz/geojson-kotlin"
+        }
+    }
+
     publishing {
         publications {
             mavenProject(MavenPublication) {
@@ -121,11 +152,26 @@ subprojects {
                 artifactId varintName
                 version project.version
 
-                if(project.name.endsWith("jvm"))
+                if (project.name.endsWith("jvm"))
                     artifact javadocJar
 
                 artifact sourceJar {
                     classifier "sources"
+                }
+
+                def platform = platformOf(project)
+                def description = project.description
+                if (description == null) {
+                    description = "$platform lib of ${project.name}"
+                }
+
+
+                pom.withXml {
+                    def root = asNode()
+                    root.appendNode('name', project.name)
+                    root.appendNode('description', description)
+                    root.appendNode('url', 'https://github.com/data2viz/geojson-kotlin')
+                    root.children().last() + pomConfig
                 }
             }
         }
@@ -155,5 +201,4 @@ subprojects {
 
     }
 
-   
 }
