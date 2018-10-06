@@ -1,8 +1,10 @@
+import org.jetbrains.dokka.DokkaConfiguration
+import org.jetbrains.dokka.gradle.DokkaTask
+
 plugins {
     id("kotlin-platform-jvm")
     id("org.jetbrains.dokka")
 }
-
 
 dependencies {
 
@@ -29,24 +31,23 @@ val copyJson = task<Copy>("copyJson") {
 
 tasks["test"].dependsOn(copyJson)
 
+tasks {
+    named<DokkaTask>("dokka") {
+        jdkVersion = 8
+        includes = listOf("README.md")
+        outputFormat = "kotlin-website"
+    }
+}
 
-//
-//tasks<Dokka>["dokka"].withType(dokka.getClass()) {
-//    jdkVersion = 8
-//    includes = ['README.md']
-//}
-//
-//dokka {
-//    outputFormat = 'kotlin-website'
-//}
-//
-//// real xxx-javadoc.jar for JVM
-//task dokkaJavadoc(type: dokka.getClass()) {
-//    outputFormat = 'javadoc'
-//    outputDirectory = "$buildDir/javadoc"
-//}
-//
-//task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
-//    classifier = 'javadoc'
-//    from "$buildDir/javadoc"
-//}
+
+val dokkaJavadoc = task<DokkaTask>("dokkaJavadoc") {
+    outputFormat = "javadoc"
+    outputDirectory = "$buildDir/javadoc"
+}
+
+val javadocJar = task<Jar>("javadocJar"){
+    classifier = "javadoc"
+    from("$buildDir/javadoc")
+    dependsOn(dokkaJavadoc)
+}
+
