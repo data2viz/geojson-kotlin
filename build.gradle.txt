@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
     }
@@ -43,40 +43,12 @@ subprojects {
     if (project.name.contains('-common')) {
         apply plugin: 'kotlin-platform-common'
         dependencies {
-            compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
-            testCompile "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
-            testCompile "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
+            compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"
+            testCompile "org.jetbrains.kotlin:kotlin-test-common:$kotlinVersion"
+            testCompile "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlinVersion"
         }
-    }
-    if (project.name.contains('-js')) {
-        apply plugin: 'kotlin-platform-js'
-        dependencies {
-            compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-            testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
-        }
-        compileKotlin2Js {
-            kotlinOptions {
-                metaInfo = true
-                sourceMap = true
-                sourceMapEmbedSources = "always"
-                moduleKind = 'umd'
-                main = "call"
-            }
-        }
-        compileTestKotlin2Js { kotlinOptions.moduleKind = 'umd' }
     }
     if (project.name.contains('-jvm')) {
-        apply plugin: 'kotlin-platform-jvm'
-        dependencies {
-            compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-            testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-            testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-            testCompile 'junit:junit:4.12'
-        }
-
-        //for tornadoFx
-        compileKotlin { kotlinOptions.jvmTarget = 1.8 }
-        compileTestKotlin { kotlinOptions.jvmTarget = 1.8 }
 
         apply plugin: 'org.jetbrains.dokka'
 
