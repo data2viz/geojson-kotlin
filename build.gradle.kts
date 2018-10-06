@@ -1,3 +1,15 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:${Versions.dokka_version}")
+    }
+}
+
+
+
 plugins {
     kotlin("jvm" ) version("1.2.71") apply false
 }
