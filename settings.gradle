@@ -1,7 +1,8 @@
 rootProject.name = "geojson-kotlin"
 
 
-include ":geojson-common"
-include ":geojson-jvm"
-include ":geojson-js"
+include ":geojson"
+//include ":geojson-common"
+//include ":geojson-jvm"
+//include ":geojson-js"
 

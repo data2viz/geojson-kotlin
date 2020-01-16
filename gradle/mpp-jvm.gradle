@@ -1,0 +1,24 @@
+
+
+kotlin {
+    jvm()
+    sourceSets {
+
+        jvmMain {
+            dependencies {
+                implementation kotlin('stdlib')
+            }
+        }
+        jvmTest {
+            dependencies {
+//                    if (project.name != "tests") {
+//                        implementation project(":tests")
+//                    }
+                implementation kotlin('test')
+                implementation kotlin('test-junit')
+            }
+        }
+
+    }
+
+}

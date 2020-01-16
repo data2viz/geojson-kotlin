@@ -1,0 +1,97 @@
+apply plugin: 'base'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+afterEvaluate {
+    publishing {
+        publications {
+            all { publication ->
+                pom.withXml(configureMavenCentralMetadata)
+
+                def type = publication.name
+                switch (type) {
+                    case 'kotlinMultiplatform':
+                        publication.artifactId = "$project.name"
+                        break
+                    case 'metadata':
+                        publication.artifactId = "$project.name-common"
+                        break
+                    case 'androidRelease':
+                        publication.artifactId = "$project.name-android"
+                        break
+                    case 'androidDebug':
+                        publication.artifactId = "$project.name-android-debug"
+                        break
+                    default:
+                        publication.artifactId = "$project.name-$type"
+                        break
+                }
+            }
+        }
+    }
+}
+
+// Workaround for upload of module.json file, remove when issue fixed https://github.com/bintray/gradle-bintray-plugin/issues/229
+bintrayUpload.doFirst {
+    publishing.publications.all { publication ->
+        def moduleFile = file("$buildDir/publications/$publication.name/module.json")
+        if (moduleFile.exists()) {
+            artifact(moduleFile) {
+                extension = "module"
+            }
+        }
+    }
+}
+
+bintrayUpload.dependsOn publishToMavenLocal
+
+if (project.hasProperty("bintray.user")) {
+    bintray {
+        user = project.property('bintray.user')
+        key = project.property('bintray.key')
+        publications = ['kotlinMultiplatform', 'js', 'jfx', 'jvm', 'androidRelease', 'metadata']
+        dryRun = false
+        pkg {
+            repo = 'data2viz'
+            name = 'data2viz'
+            userOrg = 'data2viz'
+            licenses = ['Apache-2.0']
+            vcsUrl = 'https://github.com/data2viz/data2viz.git'
+            version {
+                name = project.version
+                vcsTag = "v${project.version}"
+            }
+        }
+    }
+}
+
+project.ext.configureMavenCentralMetadata = { pom ->
+    def root = asNode()
+    root.appendNode('name', project.name)
+    root.appendNode('description', "Data2viz ${project.name} library")
+    root.appendNode('url', 'https://github.com/data2viz/data2viz')
+    root.children().last() + pomConfig
+}
+
+project.ext.pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "Data2viz"
+            name "Data2viz team"
+            organization "Data2viz"
+            organizationUrl "https://data2viz.io"
+        }
+    }
+
+    scm {
+        url "https://github.com/data2viz/data2viz"
+    }
+}

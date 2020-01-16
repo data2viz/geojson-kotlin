@@ -147,6 +147,7 @@ class GeoJsonCommonParsingTests {
 
     @Test
     fun featureCollection() {
+        //language=JSON
         val json = """
    {
        "type": "FeatureCollection",
