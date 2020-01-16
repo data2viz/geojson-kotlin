@@ -1,17 +1,19 @@
-
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
+    }
+}
 
 plugins {
     id 'org.jetbrains.kotlin.multiplatform' version '1.3.61' apply(false)
 }
 
-
-
-
-
 subprojects {
     repositories {
         jcenter()
     }
-
-
 }

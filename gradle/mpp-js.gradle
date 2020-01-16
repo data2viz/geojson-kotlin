@@ -14,7 +14,6 @@
             jsTest {
                 dependencies {
                     if (project.name != "tests") {
-//                        implementation project(":tests")
                         implementation kotlin('test-js')
                     }
                 }
