@@ -10,7 +10,6 @@ afterEvaluate {
                 pom.withXml(configureMavenCentralMetadata)
 
                 def type = publication.name
-                println " $type for $project.name"
                 switch (type) {
                     case 'kotlinMultiplatform':
                         publication.artifactId = "$project.name"
@@ -51,7 +50,7 @@ if (project.hasProperty("bintray.user")) {
     bintray {
         user = project.property('bintray.user')
         key = project.property('bintray.key')
-        publications = ['kotlinMultiplatform', 'js', 'jfx', 'jvm', 'androidRelease', 'metadata']
+        publications = ['kotlinMultiplatform', 'js', 'jvm', 'metadata']
         dryRun = false
         pkg {
             repo = 'geojson-kotlin'
@@ -71,7 +70,7 @@ project.ext.configureMavenCentralMetadata = { pom ->
     def root = asNode()
     root.appendNode('name', project.name)
     root.appendNode('description', "Data2viz ${project.name} library")
-    root.appendNode('url', 'https://github.com/data2viz/data2viz')
+    root.appendNode('url', 'https://github.com/data2viz/geojson-kotlin')
     root.children().last() + pomConfig
 }
 
