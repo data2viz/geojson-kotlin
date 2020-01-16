@@ -8,6 +8,7 @@ class GeoJsonCommonParsingTests {
 
     @Test
     fun pointJson() {
+        //language=JSON
         val json = """{"type":"Point", "coordinates":[1.0, 2.0]}"""
         val p = json.toGeoJsonObject() as Point
         assertEquals(p.coordinates.lon, 1.0)
@@ -16,7 +17,6 @@ class GeoJsonCommonParsingTests {
 
     @Test
     fun lineString() {
-
         //language=JSON
         val json = """{"type":"LineString", "coordinates":[[1.0, 2.0],[3.0,4.0]]}"""
         val lineString = json.toGeoJsonObject() as LineString
@@ -25,6 +25,7 @@ class GeoJsonCommonParsingTests {
 
     @Test
     fun multiPoint() {
+        //language=JSON
         val json = """{"type":"MultiPoint", "coordinates":[[1.0, 2.0],[3.0,4.0]]}"""
         val lineString = json.toGeoJsonObject() as MultiPoint
         assertEquals(1.0, lineString.coordinates[0].lon)
@@ -32,6 +33,7 @@ class GeoJsonCommonParsingTests {
 
     @Test
     fun multiLineString() {
+        //language=JSON
         val json = """{
          "type": "MultiLineString",
          "coordinates": [
@@ -45,13 +47,13 @@ class GeoJsonCommonParsingTests {
              ]
          ]
      }"""
-
         val multiLineString = json.toGeoJsonObject() as MultiLineString
         assertEquals(101.0, multiLineString.coordinates[0][1].lon)
     }
 
     @Test
     fun polygonWithoutHole() {
+        //language=JSON
         val json = """ {
          "type": "Polygon",
          "coordinates": [
@@ -143,6 +145,50 @@ class GeoJsonCommonParsingTests {
 
         val feature = json.toGeoJsonObject() as Feature
         assertTrue { feature.geometry is LineString }
+        assertNull(feature.id)
+    }
+
+    @Test
+    fun featureWithStringId() {
+        //language=JSON
+        val json = """
+   {
+       "type": "Feature",
+       "id": "1234",
+       "geometry": {
+           "type": "LineString",
+           "coordinates": [
+               [0.0, 0.0],
+               [1.0, 1.0]
+           ]
+       }
+   }
+        """.trimIndent()
+        val feature = json.toGeoJsonObject() as Feature
+        assertEquals("1234", feature.id)
+        assertTrue { feature.geometry is LineString }
+    }
+
+    @Test
+    fun featureWithIntId() {
+        //language=JSON
+        val json = """
+   {
+       "type": "Feature",
+       "id": 1234,
+       "geometry": {
+           "type": "LineString",
+           "coordinates": [
+               [0.0, 0.0],
+               [1.0, 1.0]
+           ]
+       }
+   }
+        """.trimIndent()
+        val feature = json.toGeoJsonObject() as Feature
+        assertEquals(1234, feature.id)
+        assertTrue { feature.geometry is LineString }
+
     }
 
     @Test

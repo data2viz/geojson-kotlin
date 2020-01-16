@@ -2,6 +2,7 @@ package io.data2viz.geojson.js
 
 import io.data2viz.geojson.*
 
+
 external interface Typed {
     val type:String
 }
@@ -21,17 +22,20 @@ fun Typed.asGeoJsonObject():GeoJsonObject =
             GeometryCollection(geometries)
         }
         "Feature"               -> {
-            val geometry:Typed = asDynamic().geometry  
-            Feature(geometry.asGeoJsonObject() as Geometry)
+            val dyn = asDynamic()
+            val geometry:Typed = dyn.geometry
+            val id: Any? = dyn.id as Any?
+            val properties:Map<String, Any> = dyn.properties
+            Feature(geometry.asGeoJsonObject() as Geometry, id)
         }
-        "FeatureCollection"     -> asFeatureCollection() 
+        "FeatureCollection"     -> asFeatureCollection()
         else                    -> throw IllegalStateException("${type} is not known")
     }
 
 private fun Typed.asFeatureCollection(): FeatureCollection {
     val dyn:dynamic = this
     val featureJs:dynamic = dyn.features
-    val features:dynamic = Array<Geometry>(0, {Point(arrayOf())})
+    val features:dynamic = Array<Geometry>(0, {Point(doubleArrayOf())})
     val size:Int = featureJs.length
     for (i in 0 until size) {
         val feature = featureJs[i]

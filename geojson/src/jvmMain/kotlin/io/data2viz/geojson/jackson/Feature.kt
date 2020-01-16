@@ -11,7 +11,9 @@ class Feature : GeoJsonObject() {
     
     @JsonInclude(JsonInclude.Include.ALWAYS)
     var geometry: GeoJsonObject? = null
-    var id: String? = null
+
+
+    var id: Any? = null
 
     fun setProperty(key: String, value: Any) {
         properties!![key] = value

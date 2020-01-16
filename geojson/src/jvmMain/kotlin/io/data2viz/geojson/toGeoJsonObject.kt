@@ -38,19 +38,19 @@ fun io.data2viz.geojson.jackson.GeoJsonObject.toGeoJsonObject(): GeoJsonObject =
 }
 
 private fun JacksonPoint.toPoint()									= Point(this.coordinates.toPosition())
-private fun io.data2viz.geojson.jackson.MultiPoint.toMultiPoint() 						= MultiPoint(this.coordinates.toLine())
-private fun io.data2viz.geojson.jackson.LineString.toLineString() 						= LineString(this.coordinates.toLine())
+private fun io.data2viz.geojson.jackson.MultiPoint.toMultiPoint() 	= MultiPoint(this.coordinates.toLine())
+private fun io.data2viz.geojson.jackson.LineString.toLineString() 	= LineString(this.coordinates.toLine())
 private fun JacksonMultiLineString.toMultiLineString() 				= MultiLineString(this.coordinates.toSurface())
 private fun JacksonPolygon.toPolygon() 								= Polygon(this.coordinates.toSurface())
 private fun JacksonMultiPolygon.toMultiPolygon() 					= MultiPolygon(this.coordinates.toSurfaces())
 private fun JacksonGeometryCollection.toGeometryCollection() 		= GeometryCollection(this.getGeometries().map { it.toGeoJsonObject() as Geometry }.toTypedArray())
-private fun JacksonFeature.toFeature() 								= Feature(this.geometry!!.toGeoJsonObject() as Geometry)
+private fun JacksonFeature.toFeature() 								= Feature(this.geometry!!.toGeoJsonObject() as Geometry, this.id)
 private fun JacksonFeatureCollection.toFeatureCollection() 			= FeatureCollection(this.getFeatures().map { it.toFeature() }.toTypedArray())
 
 
 private fun LngLatAlt.toPosition():Position =
-	if (hasAltitude()) arrayOf(this.longitude, this.latitude, this.getAltitude())
-	else arrayOf(this.longitude, this.latitude)
+	if (hasAltitude()) doubleArrayOf(this.longitude, this.latitude, this.getAltitude())
+	else doubleArrayOf(this.longitude, this.latitude)
 
 
 fun Collection<LngLatAlt>.toLine(): Array<Position> = map { it.toPosition() }.toTypedArray()
