@@ -5,5 +5,5 @@ target
 .settings
 *.iml
 .idea
-
-node_modules/
+.gradle
+build/
