@@ -6,10 +6,8 @@ GeoJson Kotlin
 [![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0) 
 
 
-This project goal is to provide GeoJson serialization for kotlin multiplatform (JVM, JS).
+This project goal is to provide [GeoJson](https://tools.ietf.org/html/rfc7946) deserialization for kotlin multiplatform (JVM, JS).
 
-
-https://tools.ietf.org/html/rfc7946
 
 
 The specific format of GeoJson files does not allow the use of kotlinx.serialization. JS and
@@ -17,23 +15,20 @@ JVM implementations are completely distinct but they share the same base objects
 
 JVM implementation is based on the project [GeoJson-Jackson](https://github.com/opendatalab-de/geojson-jackson).
 
-The project is deployed on maven central so you have to define it in your repositories.
+The project is deployed on `jcenter` so you have to define it in your repositories.
 
 ```groovy
 repositories {
-    mavenCentral()
+    jcenter()
 }
 ```
 
+The project is deployed using Gradle metadata. You can use the dependency
+on Gradle Metadata. Depending on your platform (JS or JVM) the correct
+artifact will be imported.
 
-To use it in a JS context add the following dependency: 
 ```groovy
-    compile 'io.data2viz.geojson:geojson-js:0.6.0'
-```
-
-To use it in a JVM context add the following dependency: 
-```groovy
-    compile 'io.data2viz.geojson:geojson-jvm:0.6.0'
+    compile 'io.data2viz.geojson:geojson:0.6.1-RC1'
 ```
 
 You can then use the String extension toGeoJsonObject to transform any String into a GeoJsonObject:
@@ -42,4 +37,16 @@ You can then use the String extension toGeoJsonObject to transform any String in
 val featureCollection = json.toGeoJsonObject() as FeatureCollection
 ```
 
+If you deserialize a FeatureCollection that have properties (main use case) you
+need to pass a function that transform the properties in a specific domain object.
+
+```kotlin
+class CountryProps(val name: String, val id: Int)
+
+val countries = countriesGeoJson.toFeatures {
+        CountryProps(stringProp("name"), stringProp("id"))
+}
+```
+
+You then retrieve a list of Pair<Feature, CountryProps>
 

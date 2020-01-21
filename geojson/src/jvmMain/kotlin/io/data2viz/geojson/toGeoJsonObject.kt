@@ -44,7 +44,7 @@ private fun JacksonMultiLineString.toMultiLineString() 				= MultiLineString(thi
 private fun JacksonPolygon.toPolygon() 								= Polygon(this.coordinates.toSurface())
 private fun JacksonMultiPolygon.toMultiPolygon() 					= MultiPolygon(this.coordinates.toSurfaces())
 private fun JacksonGeometryCollection.toGeometryCollection() 		= GeometryCollection(this.getGeometries().map { it.toGeoJsonObject() as Geometry }.toTypedArray())
-private fun JacksonFeature.toFeature() 								= Feature(this.geometry!!.toGeoJsonObject() as Geometry, this.id)
+private fun JacksonFeature.toFeature() 								= Feature(this.geometry!!.toGeoJsonObject() as Geometry, this.id, this.getProperties())
 private fun JacksonFeatureCollection.toFeatureCollection() 			= FeatureCollection(this.getFeatures().map { it.toFeature() }.toTypedArray())
 
 
@@ -57,3 +57,18 @@ fun Collection<LngLatAlt>.toLine(): Array<Position> = map { it.toPosition() }.to
 fun Collection<Collection<LngLatAlt>>.toSurface(): Array<Positions> = map { it.toLine() }.toTypedArray()
 fun Collection<Collection<Collection<LngLatAlt>>>.toSurfaces(): Array<Lines> = map { it.toSurface() }.toTypedArray()
 
+actual class FeatureProperties {
+	var properties: Map<String, Any?> = mapOf()
+    actual fun stringProp(name: String): String  	= properties[name] as String
+	actual fun intProp(name: String): Int  			= properties[name] as Int
+	actual fun booleanProp(name: String): Boolean  	= properties[name] as Boolean
+}
+
+actual fun <T> String.toFeaturesAndProperties(extractFunction: FeatureProperties.() -> T): List<Pair<Feature, T>> {
+	val features = ObjectMapper().readValue(this, JacksonFeatureCollection::class.java)
+	val properties = FeatureProperties()
+	return features.getFeatures().map { feature ->
+		properties.properties = feature.getProperties()!!
+		Pair(feature.toFeature(), extractFunction(properties))
+	}
+}

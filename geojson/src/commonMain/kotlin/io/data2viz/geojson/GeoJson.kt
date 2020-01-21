@@ -2,9 +2,9 @@ package io.data2viz.geojson
 
 
 typealias Position  = DoubleArray
-
 typealias Positions = Array<Position>
-typealias Lines     = Array<Positions>
+typealias Line = Positions
+typealias Lines     = Array<Line>
 typealias Surface   = Array<Lines>
 
 val Position.lon: Double
@@ -28,7 +28,7 @@ interface Geometry : GeoJsonObject
 data class Feature(
         val geometry: Geometry,
         val id:Any? = null,
-        val properties: MutableMap<String, Any> = mutableMapOf()
+        val properties: Any? = null
 ) : GeoJsonObject
 
 
@@ -38,7 +38,7 @@ data class Point(val coordinates: Position): Geometry
 
 data class MultiPoint(val coordinates: Positions): Geometry
 
-data class LineString(val coordinates: Positions): Geometry
+data class LineString(val coordinates: Line): Geometry
 
 data class MultiLineString(val coordinates: Lines): Geometry
 
@@ -50,8 +50,27 @@ data class MultiPolygon(val coordinates: Surface):Geometry
 
 data class GeometryCollection(val geometries: Array<Geometry>): Geometry
 
-
 /**
  * Parse the String as a GeoJsonObject
  */
 expect fun String.toGeoJsonObject():GeoJsonObject
+
+/**
+ * Retrieve a list of Feature (FeatureCollection) which have properties.
+ * You need to pass an extractionFunction to transform the extracted properties
+ * to a specific Properties class.
+ *
+ * For instance:
+ * ```
+ * json.toFeaturesAndProperties { City( intProp("id"), stringProp("name") }
+ * ```
+ * @return a list of Pair<Feature, T>
+ */
+expect fun <T> String.toFeaturesAndProperties(extractFunction: FeatureProperties.() -> T): List<Pair<Feature, T>>
+//expect fun <T> String.toFeature(extract: FeatureProperties.() -> T): Pair<Feature, T>
+
+expect class FeatureProperties {
+    fun stringProp(name: String): String
+    fun intProp(name: String): Int
+    fun booleanProp(name: String): Boolean
+}

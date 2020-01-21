@@ -3,7 +3,6 @@ package io.data2viz.geojson.jackson
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonInclude.Include
 import com.fasterxml.jackson.annotation.JsonSubTypes
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id
 
@@ -11,11 +10,17 @@ import java.io.Serializable
 import java.util.Arrays
 
 @JsonTypeInfo(property = "type", use = Id.NAME)
-@JsonSubTypes(JsonSubTypes.Type(Feature::class),JsonSubTypes.Type(Polygon::class),JsonSubTypes.Type(
-    MultiPolygon::class),JsonSubTypes.Type(FeatureCollection::class),JsonSubTypes.Type(
-    Point::class),JsonSubTypes.Type(MultiPoint::class),JsonSubTypes.Type(
-    MultiLineString::class),JsonSubTypes.Type(
-    GeometryCollection::class),JsonSubTypes.Type(LineString::class))
+@JsonSubTypes(
+        JsonSubTypes.Type(FeatureCollection::class),
+        JsonSubTypes.Type(Feature::class),
+        JsonSubTypes.Type(MultiPolygon::class),
+        JsonSubTypes.Type(Polygon::class),
+        JsonSubTypes.Type(GeometryCollection::class),
+        JsonSubTypes.Type(MultiLineString::class),
+        JsonSubTypes.Type(MultiPoint::class),
+        JsonSubTypes.Type(LineString::class),
+        JsonSubTypes.Type(Point::class)
+)
 @JsonInclude(Include.NON_NULL)
 abstract class GeoJsonObject: Serializable {
 
