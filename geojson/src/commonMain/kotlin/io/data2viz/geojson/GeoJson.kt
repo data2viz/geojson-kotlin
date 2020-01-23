@@ -70,7 +70,7 @@ expect fun <T> String.toFeaturesAndProperties(extractFunction: FeatureProperties
 //expect fun <T> String.toFeature(extract: FeatureProperties.() -> T): Pair<Feature, T>
 
 expect class FeatureProperties {
-    fun stringProp(name: String): String
-    fun intProp(name: String): Int
-    fun booleanProp(name: String): Boolean
+    fun stringProperty(name: String): String
+    fun intProperty(name: String): Int
+    fun booleanProperty(name: String): Boolean
 }

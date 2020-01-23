@@ -71,7 +71,7 @@ class PointTest {
             GeoJsonObject::class.java
         )
         val point = value as Point
-        assertLngLatAlt(100.0, 5.0, 123.0, doubleArrayOf(456.0, 789.2), point.coordinates!!)
+        assertLngLatAlt(100.0, 5.0, 123.0, doubleArrayOf(456.0, 789.2), point.coordinates)
     }
 
     @Test

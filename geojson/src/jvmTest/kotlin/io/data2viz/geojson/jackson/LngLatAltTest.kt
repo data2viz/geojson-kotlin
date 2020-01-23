@@ -2,7 +2,6 @@ package io.data2viz.geojson.jackson
 
 import org.junit.Assert
 import org.junit.Test
-import java.lang.Double
 
 class LngLatAltTest {
 

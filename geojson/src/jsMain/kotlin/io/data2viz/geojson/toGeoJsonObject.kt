@@ -12,9 +12,9 @@ actual class FeatureProperties {
 
     var properties: dynamic = null
 
-    actual fun stringProp(name: String): String     = properties[name] as String
-    actual fun intProp(name: String): Int           = properties[name] as Int
-    actual fun booleanProp(name: String): Boolean   = properties[name] as Boolean
+    actual fun stringProperty(name: String): String     = properties[name] as String
+    actual fun intProperty(name: String): Int           = properties[name] as Int
+    actual fun booleanProperty(name: String): Boolean   = properties[name] as Boolean
 }
 
 actual fun <T> String.toFeaturesAndProperties(extractFunction: FeatureProperties.() -> T): List<Pair<Feature, T>> {

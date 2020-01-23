@@ -28,7 +28,7 @@ on Gradle Metadata. Depending on your platform (JS or JVM) the correct
 artifact will be imported.
 
 ```groovy
-    compile 'io.data2viz.geojson:geojson:0.6.1-RC1'
+    compile 'io.data2viz.geojson:geojson:0.6.1-RC2'
 ```
 
 You can then use the String extension toGeoJsonObject to transform any String into a GeoJsonObject:
@@ -41,12 +41,12 @@ If you deserialize a FeatureCollection that have properties (main use case) you
 need to pass a function that transform the properties in a specific domain object.
 
 ```kotlin
-class CountryProps(val name: String, val id: Int)
+class CountryProperties(val name: String, val id: Int)
 
 val countries = countriesGeoJson.toFeatures {
-        CountryProps(stringProp("name"), stringProp("id"))
+        CountryProperties(stringProperty("name"), intProperty("id"))
 }
 ```
 
-You then retrieve a list of Pair<Feature, CountryProps>
+You then retrieve a list of `Pair<Feature, CountryPropertiess>`
 
