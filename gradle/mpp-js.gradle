@@ -1,64 +1,59 @@
 
-
-    kotlin {
-        js {
-            browser {}
-        }
-
-        sourceSets {
-            jsMain {
-                dependencies {
-                    implementation kotlin('stdlib-js')
-                }
-            }
-            jsTest {
-                dependencies {
-                    if (project.name != "tests") {
-                        implementation kotlin('test-js')
-                    }
-                }
-            }
-        }
-
+kotlin {
+    js {
+        moduleName = "geojson-kotlin-$project.name"
+        browser {}
     }
 
-    def npmDeployDir = file("$buildDir/npm")
-
-    task preparePublishNpm(type: Copy, dependsOn: compileKotlinJs) {
-        npmDeployDir.mkdirs()
-        from(kotlin.targets.js.compilations.main.output.allOutputs)
-        from("../build/js/packages/geojson-kotlin-$project.name/package.json")
-        into npmDeployDir
-
-        doLast {
-            def jsonFile = file("$buildDir/npm/package.json")
-            def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text)
-            def newFile = new File( npmDeployDir, "package.json")
-            newFile.write(generatePackageJson(
-                    version,
-                    project.name,
-                    parsedJson.dependencies))
+    sourceSets {
+        jsMain {
+            dependencies {
+                implementation kotlin('stdlib-js')
+            }
         }
+        jsTest {
+            dependencies {
+                if (project.name != "tests") {
+                    implementation kotlin('test-js')
+                }
+            }
+        }
+    }
+}
 
+def npmDeployDir = file("$buildDir/npm")
+
+
+task preparePublishNpm(type: Copy, dependsOn: compileKotlinJsLegacy) {
+    npmDeployDir.mkdirs()
+    from(kotlin.targets.jsLegacy.compilations.main.output.allOutputs)
+    from("../build/js/packages/geojson-kotlin-$project.name/package.json")
+    into npmDeployDir
+
+    doLast {
+        def jsonFile = file("$buildDir/npm/package.json")
+        def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text)
+        def newFile = new File( npmDeployDir, "package.json")
+        newFile.write(generatePackageJson(
+                version,
+                project.name,
+                parsedJson.dependencies))
     }
 
-    task publishNpm(type: Exec, dependsOn: [preparePublishNpm]) {
+}
 
-        if (!project.hasProperty("npmToken")) {
-            logger.warn 'warn: to publish on npm the build needs a npmToken property.'
-            return
-        }
+task publishNpm(type: Exec, dependsOn: [preparePublishNpm]) {
+    if (!project.hasProperty("npmToken")) {
+        logger.warn 'warn: to publish on npm the build needs a npmToken property.'
+        return
+    }
 
-        workingDir = npmDeployDir
+    workingDir = npmDeployDir
 //        commandLine 'npm', 'publish', '--dry-run', "--//registry.npmjs.org/:_authToken=$npmToken"  //test
-        commandLine 'npm', 'publish', '--access=public', "--//registry.npmjs.org/:_authToken=$npmToken"
-    }
-
-
+    commandLine 'npm', 'publish', '--access=public', "--//registry.npmjs.org/:_authToken=$npmToken"
+}
 
 static def generatePackageJson(String version, String projectName, Map dependencies) {
-
-
     return """
 {
     "name": "@data2viz/geojson-kotlin",
