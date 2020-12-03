@@ -28,8 +28,10 @@ on Gradle Metadata. Depending on your platform (JS or JVM) the correct
 artifact will be imported.
 
 ```groovy
-    compile 'io.data2viz.geojson:core:0.6.1-RC3'
+    compile 'io.data2viz.geojson:core:0.6.2'
 ```
+
+The JS version is available in [both modes](https://kotlinlang.org/docs/reference/js-ir-compiler.html), `Legacy` and `IR`.
 
 You can then use the String extension toGeoJsonObject to transform any String into a GeoJsonObject:
 
