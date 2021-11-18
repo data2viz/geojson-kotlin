@@ -1,19 +1,30 @@
 buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
     dependencies {
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
+        classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.2.4"
     }
 }
-
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform' version '1.4.20' apply(false)
+    id "org.jetbrains.kotlin.multiplatform" version "1.5.31" apply(false)
 }
 
-subprojects {
+apply plugin: "binary-compatibility-validator"
+
+
+repositories {
+    google()
+}
+
+allprojects {
+
+    group = "io.data2viz.geojson"
+    version = "$version"
+
     repositories {
-        jcenter()
+        mavenLocal()
+        google()
+        mavenCentral()
+        maven {
+            url "https://kotlin.bintray.com/kotlinx/"
+        }
     }
 }

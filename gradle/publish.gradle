@@ -1,0 +1,85 @@
+apply plugin: 'base'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+afterEvaluate {
+    publishing {
+        if (project.hasProperty("d2v_service_app_id")) {
+            repositories {
+                maven {
+                    name = "data2viz-public"
+                    url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/public")
+                    credentials {
+                        username = d2v_service_app_id
+                        password = d2v_service_app_secret
+                    }
+                }
+            }
+            repositories {
+                maven {
+                    name = "data2viz-dev"
+                    url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/dev")
+                    credentials {
+                        username = d2v_service_app_id
+                        password = d2v_service_app_secret
+                    }
+                }
+            }
+        }
+
+        publications {
+            all { publication ->
+                pom.withXml(configureMavenCentralMetadata)
+
+                def type = publication.name
+                switch (type) {
+                    case 'kotlinMultiplatform':
+                        publication.artifactId = "$project.name"
+                        break
+                    case 'metadata':
+                        publication.artifactId = "$project.name-common"
+                        break
+                    case 'androidRelease':
+                        publication.artifactId = "$project.name-android"
+                        break
+                    case 'androidDebug':
+                        publication.artifactId = "$project.name-android-debug"
+                        break
+                    default:
+                        publication.artifactId = "$project.name-$type"
+                        break
+                }
+            }
+        }
+    }
+}
+
+project.ext.configureMavenCentralMetadata = { pom ->
+    def root = asNode()
+    root.appendNode('name', project.name)
+    root.appendNode('description', "Data2viz ${project.name} library")
+    root.appendNode('url', 'https://github.com/data2viz/geojson-kotlin')
+    root.children().last() + pomConfig
+}
+
+project.ext.pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "Data2viz"
+            name "Data2viz team"
+            organization "Data2viz"
+            organizationUrl "https://data2viz.io"
+        }
+    }
+
+    scm {
+        url "https://github.com/data2viz/data2viz"
+    }
+}
