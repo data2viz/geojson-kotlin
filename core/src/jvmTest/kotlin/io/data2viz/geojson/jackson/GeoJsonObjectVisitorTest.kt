@@ -71,8 +71,7 @@ class GeoJsonObjectVisitorTest(private val geoJsonObject: GeoJsonObject) {
         @JvmStatic
         @Parameterized.Parameters
         fun data(): Collection<Array<Any>> {
-            return Arrays.asList(
-                *arrayOf(
+            return listOf(
                     arrayOf<Any>(GeometryCollection()),
                     arrayOf<Any>(FeatureCollection()),
                     arrayOf<Any>(Point(12.0, 13.0)),
@@ -91,7 +90,6 @@ class GeoJsonObjectVisitorTest(private val geoJsonObject: GeoJsonObject) {
                     arrayOf<Any>(MultiPolygon()),
                     arrayOf<Any>(MultiPoint()),
                     arrayOf<Any>(LineString())
-                )
             )
         }
     }
