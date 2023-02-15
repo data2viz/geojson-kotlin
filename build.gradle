@@ -9,11 +9,6 @@ plugins {
 
 apply plugin: "binary-compatibility-validator"
 
-
-repositories {
-    google()
-}
-
 allprojects {
 
     group = "io.data2viz.geojson"
