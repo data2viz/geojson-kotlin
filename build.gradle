@@ -1,6 +1,6 @@
 buildscript {
     dependencies {
-        classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.2.4"
+        classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.12.1"
     }
 }
 plugins {
