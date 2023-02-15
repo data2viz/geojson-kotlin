@@ -3,12 +3,6 @@
 kotlin {
     jvm()
     sourceSets {
-
-        jvmMain {
-            dependencies {
-                implementation kotlin('stdlib')
-            }
-        }
         jvmTest {
             dependencies {
 //                    if (project.name != "tests") {
