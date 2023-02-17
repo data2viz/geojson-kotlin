@@ -37,7 +37,7 @@ on Gradle Metadata. Depending on your platform (JS or JVM) the correct
 artifact will be imported.
 
 ```groovy
-    compile 'io.data2viz.geojson:core:0.6.4'
+    compile 'io.data2viz.geojson:core:0.6.5'
 ```
 
 The JS version is available in [both modes](https://kotlinlang.org/docs/reference/js-ir-compiler.html), `Legacy` and `IR`.
