@@ -47,10 +47,10 @@ class LngLatAlt
         checkAltitudeAndAdditionalElements()
     }
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o !is LngLatAlt) return false
-        val lngLatAlt = o as LngLatAlt?
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is LngLatAlt) return false
+        val lngLatAlt = other as LngLatAlt?
         return (java.lang.Double.compare(
             lngLatAlt!!.latitude,
             latitude
