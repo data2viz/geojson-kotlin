@@ -1,8 +1,47 @@
 apply plugin: 'base'
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+tasks.register('javadocJar', Jar) {
+    archiveClassifier.set('javadoc')
+}
+
+static String propertyOrEnvOrNull(Project project, String key) {
+    final String property = project.findProperty(key)
+    if (property == null) return System.getenv(key)
+    return property
+}
 
 afterEvaluate {
     publishing {
+
+        String sonatypeUsername = propertyOrEnvOrNull(project, "sonatype_username")
+        String sonatypePassword = propertyOrEnvOrNull(project, "sonatype_password")
+        String repositoryId = System.getenv("sonatype_staging_repo_id")
+
+        repositories {
+            maven {
+                name = "MavenCentralStaging"
+                if (repositoryId == null) {
+                    url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                } else {
+                    url = uri("https://oss.sonatype.org/service/local/staging/deployByRepositoryId/$repositoryId/")
+                }
+                credentials {
+                    username = sonatypeUsername
+                    password = sonatypePassword
+                }
+            }
+            maven {
+                name = "SonatypeSnapshots"
+                url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+                credentials {
+                    username = sonatypeUsername
+                    password = sonatypePassword
+                }
+            }
+        }
+
         if (project.hasProperty("d2v_service_app_id")) {
             repositories {
                 maven {
@@ -29,6 +68,7 @@ afterEvaluate {
         publications {
             all { publication ->
                 pom.withXml(configureMavenCentralMetadata)
+                artifact(javadocJar)
 
                 def type = publication.name
                 switch (type) {
@@ -48,6 +88,19 @@ afterEvaluate {
                         publication.artifactId = "$project.name-$type"
                         break
                 }
+            }
+        }
+
+        signing {
+            String keyId = propertyOrEnvOrNull(project, "GPG_key_id")
+            String privateKey = propertyOrEnvOrNull(project, "GPG_private_key")
+            if (privateKey != null) {
+                useInMemoryPgpKeys(
+                        keyId,
+                        privateKey,
+                        propertyOrEnvOrNull(project, "GPG_private_password")
+                )
+                sign(publishing.publications)
             }
         }
     }
@@ -79,6 +132,6 @@ project.ext.pomConfig = {
     }
 
     scm {
-        url "https://github.com/data2viz/data2viz"
+        url "https://github.com/data2viz/geojson-kotlin"
     }
 }
