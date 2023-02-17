@@ -1,3 +1,11 @@
+# Change log for geojson-kotlin
+
+## 0.6.5
+
+> Published 17 Feb 2023
+* Kotlin 1.8.0
+* Remove unneeded `Typed` class introduced in version 0.6.4 that broke iOS consumers with the following error: `e: Compilation failed: external function Typed.<get-type> must have @TypedIntrinsic, @SymbolName, @GCUnsafeCall or @ObjCMethod annotation`.
+
 ## 0.6.2
 > Published 01 Dec 2020
 * Kotlin 1.4.20
