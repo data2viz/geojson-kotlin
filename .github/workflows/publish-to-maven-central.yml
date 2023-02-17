@@ -16,7 +16,7 @@ jobs:
       repository_id: ${{ steps.create.outputs.repository_id }}
     steps:
       - id: create
-        uses: nexus-actions/create-nexus-staging-repo@v1.1
+        uses: nexus-actions/create-nexus-staging-repo@v1.2
         with:
           username: ${{ secrets.SONATYPE_USERNAME }}
           password: ${{ secrets.SONATYPE_PASSWORD }}
@@ -72,7 +72,7 @@ jobs:
           staging_repository_id: ${{ needs.create-staging-repository.outputs.repository_id }}
       - name: Release
         if: ${{ needs.macos-upload.result == 'success' && needs.linux-upload.result == 'success' }}
-        uses: nexus-actions/release-nexus-staging-repo@v1.1
+        uses: nexus-actions/release-nexus-staging-repo@v1.2
         with:
           username: ${{ secrets.SONATYPE_USERNAME }}
           password: ${{ secrets.SONATYPE_PASSWORD }}
